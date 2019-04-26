@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "env-utils": "^2.2.1",
+    "express": "^4.16.4",
+    "knex": "^0.16.5",
+    "lazy-config": "^3.0.1"
+  }
+}
