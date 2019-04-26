@@ -8,6 +8,10 @@
     "env-utils": "^2.2.1",
     "express": "^4.16.4",
     "knex": "^0.16.5",
-    "lazy-config": "^3.0.1"
+    "lazy-config": "^3.0.1",
+    "mysql2": "^1.6.5"
+  },
+  "devDependencies": {
+    "koi": "^0.1.1"
   }
 }
