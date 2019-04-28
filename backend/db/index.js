@@ -1,14 +1,19 @@
 'use strict';
 const config = require('lazy-config');
 const knex = require('knex');
+const bookshelf = require('bookshelf');
+const bookshelfBcrypt = require('bookshelf-bcrypt');
 
 
-let cfg;
+let knexConfig;
 
 if (config.isDev) {
-  cfg = require('../knexfile').development;
+  knexConfig = require('../knexfile').development;
 } else {
-  cfg = require('../knexfile').production;
+  knexConfig = require('../knexfile').production;
 }
 
-module.exports = knex(cfg);
+const bookshelfInstance = bookshelf(knex(knexConfig));
+bookshelfInstance.plugin(bookshelfBcrypt);
+
+module.exports = bookshelfInstance;
