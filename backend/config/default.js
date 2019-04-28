@@ -1,11 +1,16 @@
+require('dotenv').config();
 const { getEnvVar } = require('env-utils')
 
 function lazyGetEnvVar() {
-  return () => getEnvVar(...arguments)
+  return () => getEnvVar(...arguments);
 }
 
 module.exports = {
   isDev: () => process.env.NODE_ENV === 'development',
+
+  app: {
+    port: lazyGetEnvVar('PORT', { devDefault: '8081', optional: true }),
+  },
 
   authentication: {
     jwtSecret: lazyGetEnvVar('JWT_SECRET', { devDefault: 'loochloosa'}),

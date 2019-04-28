@@ -6,9 +6,9 @@ const knex = require('knex');
 let cfg;
 
 if (config.isDev) {
-  cfg = require('./knexfile').development;
+  cfg = require('../knexfile').development;
 } else {
-  cfg = require('./knexfile').production;
+  cfg = require('../knexfile').production;
 }
 
 module.exports = knex(cfg);

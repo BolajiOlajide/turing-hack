@@ -19,7 +19,7 @@ const baseCfg = {
 module.exports = {
   development: {
     ...baseCfg,
-    debug: true,
+    debug: false,
   },
 
   production: {
