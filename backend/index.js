@@ -1,7 +1,7 @@
 import express from 'express';
 import config from 'lazy-config';
 import bodyParser from 'body-parser';
-import logger from 'winston';
+import logger from './logger';
 
 // import db from './db';
 
