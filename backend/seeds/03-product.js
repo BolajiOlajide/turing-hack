@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const tblName = 'product';
 const rawSql = `INSERT INTO ${tblName} (product_id, name, description, price, discounted_price, image, image_2, thumbnail, display) VALUES
 (1, 'Arc d''Triomphe', 'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.', 14.99, 0.00, 'arc-d-triomphe.gif', 'arc-d-triomphe-2.gif', 'arc-d-triomphe-thumbnail.gif', 0),
@@ -102,6 +103,7 @@ const rawSql = `INSERT INTO ${tblName} (product_id, name, description, price, di
 (100, 'The Rapture of Psyche', 'Now we''re getting a bit more serious!', 18.95, 16.99, 'the-rapture-of-psyche.gif', 'the-rapture-of-psyche-2.gif', 'the-rapture-of-psyche-thumbnail.gif', 2),
 (101, 'The Promise of Spring', 'With Valentine''s Day come, can Spring be far behind?', 21.00, 19.50, 'the-promise-of-spring.gif', 'the-promise-of-spring-2.gif', 'the-promise-of-spring-thumbnail.gif', 0);
 `;
+/* eslint-enable */
 
 exports.seed = knex => knex(tblName).del()
   .then(() => knex.raw(rawSql));

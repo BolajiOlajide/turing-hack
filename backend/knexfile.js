@@ -9,14 +9,14 @@ const baseCfg = {
   migrations: { tableName: 'knex_migrations' },
   seeds: { directory: './seeds' },
   connection: {
-    host : config.db.host,
-    user : config.db.user,
-    password : config.db.password,
-    database : config.db.name
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.name
   }
 };
 
-module.exports = {
+export default {
   development: {
     ...baseCfg,
     debug: false,

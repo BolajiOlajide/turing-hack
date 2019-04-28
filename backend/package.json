@@ -4,13 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "dev": "babel-watch .",
+    "build": "rm -rf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./tests,./coverage,./docs",
     "start": "node .",
     "make:migration": "knex migrate:make $1",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "make:seed": "knex seed:make $1",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "lint": "eslint ."
   },
+  "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "body-parser": "^1.19.0",
     "bookshelf": "^0.14.2",
@@ -20,9 +24,19 @@
     "express": "^4.16.4",
     "knex": "^0.16.5",
     "lazy-config": "^3.0.1",
-    "mysql2": "^1.6.5"
+    "mysql2": "^1.6.5",
+    "ramda": "^0.26.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-eslint": "^10.0.1",
+    "babel-watch": "^7.0.0",
+    "errorhandler": "^1.5.0",
+    "eslint": "^5.16.0",
+    "eslint-config-proton": "^1.0.5",
     "koii": "^1.0.4"
   }
 }

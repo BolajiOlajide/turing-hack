@@ -1,9 +1,10 @@
-require('dotenv').config();
-const { getEnvVar } = require('env-utils')
+import dotenv from 'dotenv';
+import { getEnvVar } from 'env-utils';
 
-function lazyGetEnvVar() {
-  return () => getEnvVar(...arguments);
-}
+
+dotenv.config();
+
+const lazyGetEnvVar = (...args) => () => getEnvVar(...args);
 
 module.exports = {
   isDev: () => process.env.NODE_ENV === 'development',
@@ -13,13 +14,13 @@ module.exports = {
   },
 
   authentication: {
-    jwtSecret: lazyGetEnvVar('JWT_SECRET', { devDefault: 'loochloosa'}),
+    jwtSecret: lazyGetEnvVar('JWT_SECRET', { devDefault: 'loochloosa' }),
   },
 
   db: {
-    host: lazyGetEnvVar('DB_HOST', { devDefault: '127.0.0.1'}),
+    host: lazyGetEnvVar('DB_HOST', { devDefault: '127.0.0.1' }),
     name: lazyGetEnvVar('DB_NAME'),
     password: lazyGetEnvVar('DB_PASSWORD'),
     user: lazyGetEnvVar('DB_USER'),
   }
-}
+};

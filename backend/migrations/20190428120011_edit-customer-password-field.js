@@ -6,7 +6,7 @@ exports.up = knex => knex
   )));
 
 exports.down = knex => knex
-.schema.hasColumn('customer', 'password')
-.then(exists => exists && (knex.schema.alterTable('customer', (tbl) => tbl
-  .string('password', 50).notNullable().alter()
-)));
+  .schema.hasColumn('customer', 'password')
+  .then(exists => exists && (knex.schema.alterTable('customer', (tbl) => tbl
+    .string('password', 50).notNullable().alter()
+  )));

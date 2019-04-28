@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const tblName = 'category';
 const rawSql = `INSERT INTO ${tblName} (category_id, department_id, name, description) VALUES
 (1, 1, 'French', 'The French have always had an eye for beauty. One look at the T-shirts below and you''ll see that same appreciation has been applied abundantly to their postage stamps. Below are some of our most beautiful and colorful T-shirts, so browse away! And don''t forget to go all the way to the bottom - you don''t want to miss any of them!'),
@@ -8,6 +9,7 @@ const rawSql = `INSERT INTO ${tblName} (category_id, department_id, name, descri
 (6, 3, 'Christmas', ' Because this is a unique Christmas T-shirt that you''ll only wear a few times a year, it will probably last for decades (unless some grinch nabs it from you, of course). Far into the future, after you''re gone, your grandkids will pull it out and argue over who gets to wear it. What great snapshots they''ll make dressed in Grandpa or Grandma''s incredibly tasteful and unique Christmas T-shirt! Yes, everyone will remember you forever and what a silly goof you were when you would wear only your Santa beard and cap so you wouldn''t cover up your nifty T-shirt.'),
 (7, 3, 'Valentine''s', 'For the more timid, all you have to do is wear your heartfelt message to get it across. Buy one for you and your sweetie(s) today!');
 `;
+/* eslint-enable */
 
 exports.seed = knex => knex(tblName).del()
   .then(() => knex.raw(rawSql));
