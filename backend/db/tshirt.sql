@@ -1,194 +1,194 @@
 -- Create tshirtshop tables
 
 -- Create department table
-CREATE TABLE `department` (
-  `department_id` INT            NOT NULL  AUTO_INCREMENT,
-  `name`          VARCHAR(100)   NOT NULL,
-  `description`   VARCHAR(1000),
-  PRIMARY KEY  (`department_id`)
+CREATE TABLE department (
+  department_id INT            NOT NULL  AUTO_INCREMENT,
+  name          VARCHAR(100)   NOT NULL,
+  description   VARCHAR(1000),
+  PRIMARY KEY  (department_id)
 ) ENGINE=MyISAM;
 
 -- Create category table
-CREATE TABLE `category` (
-  `category_id`   INT            NOT NULL  AUTO_INCREMENT,
-  `department_id` INT            NOT NULL,
-  `name`          VARCHAR(100)   NOT NULL,
-  `description`   VARCHAR(1000),
-  PRIMARY KEY (`category_id`),
-  KEY `idx_category_department_id` (`department_id`)
+CREATE TABLE category (
+  category_id   INT            NOT NULL  AUTO_INCREMENT,
+  department_id INT            NOT NULL,
+  name          VARCHAR(100)   NOT NULL,
+  description   VARCHAR(1000),
+  PRIMARY KEY (category_id),
+  KEY idx_category_department_id (department_id)
 ) ENGINE=MyISAM;
 
 -- Create product table
-CREATE TABLE `product` (
-  `product_id`       INT           NOT NULL  AUTO_INCREMENT,
-  `name`             VARCHAR(100)  NOT NULL,
-  `description`      VARCHAR(1000) NOT NULL,
-  `price`            DECIMAL(10,2) NOT NULL,
-  `discounted_price` DECIMAL(10,2) NOT NULL  DEFAULT '0.00',
-  `image`            VARCHAR(150),
-  `image_2`          VARCHAR(150),
-  `thumbnail`        VARCHAR(150),
-  `display`          SMALLINT(6)   NOT NULL  DEFAULT '0',
-  PRIMARY KEY  (`product_id`),
-  FULLTEXT KEY `idx_ft_product_name_description` (`name`, `description`)
+CREATE TABLE product (
+  product_id       INT           NOT NULL  AUTO_INCREMENT,
+  name             VARCHAR(100)  NOT NULL,
+  description      VARCHAR(1000) NOT NULL,
+  price            DECIMAL(10,2) NOT NULL,
+  discounted_price DECIMAL(10,2) NOT NULL  DEFAULT '0.00',
+  image            VARCHAR(150),
+  image_2          VARCHAR(150),
+  thumbnail        VARCHAR(150),
+  display          SMALLINT(6)   NOT NULL  DEFAULT '0',
+  PRIMARY KEY  (product_id),
+  FULLTEXT KEY idx_ft_product_name_description (name, description)
 ) ENGINE=MyISAM;
 
 -- Create product_category table
-CREATE TABLE `product_category` (
-  `product_id`  INT NOT NULL,
-  `category_id` INT NOT NULL,
-  PRIMARY KEY (`product_id`, `category_id`)
+CREATE TABLE product_category (
+  product_id  INT NOT NULL,
+  category_id INT NOT NULL,
+  PRIMARY KEY (product_id, category_id)
 ) ENGINE=MyISAM;
 
 -- Create attribute table (stores attributes such as Size and Color)
-CREATE TABLE `attribute` (
-  `attribute_id` INT          NOT NULL  AUTO_INCREMENT,
-  `name`         VARCHAR(100) NOT NULL, -- E.g. Color, Size
-  PRIMARY KEY (`attribute_id`)
+CREATE TABLE attribute (
+  attribute_id INT          NOT NULL  AUTO_INCREMENT,
+  name         VARCHAR(100) NOT NULL, -- E.g. Color, Size
+  PRIMARY KEY (attribute_id)
 ) ENGINE=MyISAM;
 
 
 -- Create attribute_value table (stores values such as Yellow or XXL)
-CREATE TABLE `attribute_value` (
-  `attribute_value_id` INT          NOT NULL  AUTO_INCREMENT,
-  `attribute_id`       INT          NOT NULL, -- The ID of the attribute
-  `value`              VARCHAR(100) NOT NULL, -- E.g. Yellow
-  PRIMARY KEY (`attribute_value_id`),
-  KEY `idx_attribute_value_attribute_id` (`attribute_id`)
+CREATE TABLE attribute_value (
+  attribute_value_id INT          NOT NULL  AUTO_INCREMENT,
+  attribute_id       INT          NOT NULL, -- The ID of the attribute
+  value              VARCHAR(100) NOT NULL, -- E.g. Yellow
+  PRIMARY KEY (attribute_value_id),
+  KEY idx_attribute_value_attribute_id (attribute_id)
 ) ENGINE=MyISAM;
 
 -- Create product_attribute table (associates attribute values to products)
-CREATE TABLE `product_attribute` (
-  `product_id`         INT NOT NULL,
-  `attribute_value_id` INT NOT NULL,
-  PRIMARY KEY (`product_id`, `attribute_value_id`)
+CREATE TABLE product_attribute (
+  product_id         INT NOT NULL,
+  attribute_value_id INT NOT NULL,
+  PRIMARY KEY (product_id, attribute_value_id)
 ) ENGINE=MyISAM;
 
 
 -- Create shopping_cart table
-CREATE TABLE `shopping_cart` (
-  `item_id`     INT           NOT NULL  AUTO_INCREMENT,
-  `cart_id`     CHAR(32)      NOT NULL,
-  `product_id`  INT           NOT NULL,
-  `attributes`  VARCHAR(1000) NOT NULL,
-  `quantity`    INT           NOT NULL,
-  `buy_now`     BOOL          NOT NULL  DEFAULT true,
-  `added_on`    DATETIME      NOT NULL,
-  PRIMARY KEY (`item_id`),
-  KEY `idx_shopping_cart_cart_id` (`cart_id`)
+CREATE TABLE shopping_cart (
+  item_id     INT           NOT NULL  AUTO_INCREMENT,
+  cart_id     CHAR(32)      NOT NULL,
+  product_id  INT           NOT NULL,
+  attributes  VARCHAR(1000) NOT NULL,
+  quantity    INT           NOT NULL,
+  buy_now     BOOL          NOT NULL  DEFAULT true,
+  added_on    DATETIME      NOT NULL,
+  PRIMARY KEY (item_id),
+  KEY idx_shopping_cart_cart_id (cart_id)
 ) ENGINE=MyISAM;
 
 -- Create orders table
-CREATE TABLE `orders` (
-  `order_id`     INT           NOT NULL  AUTO_INCREMENT,
-  `total_amount` DECIMAL(10,2) NOT NULL  DEFAULT '0.00',
-  `created_on`   DATETIME      NOT NULL,
-  `shipped_on`   DATETIME,
-  `status`       INT           NOT NULL  DEFAULT '0',
-  `comments`     VARCHAR(255),
-  `customer_id`  INT,
-  `auth_code`    VARCHAR(50),
-  `reference`    VARCHAR(50),
-  `shipping_id`  INT,
-  `tax_id`       INT,
-  PRIMARY KEY  (`order_id`),
-  KEY `idx_orders_customer_id` (`customer_id`),
-  KEY `idx_orders_shipping_id` (`shipping_id`),
-  KEY `idx_orders_tax_id` (`tax_id`)
+CREATE TABLE orders (
+  order_id     INT           NOT NULL  AUTO_INCREMENT,
+  total_amount DECIMAL(10,2) NOT NULL  DEFAULT '0.00',
+  created_on   DATETIME      NOT NULL,
+  shipped_on   DATETIME,
+  status       INT           NOT NULL  DEFAULT '0',
+  comments     VARCHAR(255),
+  customer_id  INT,
+  auth_code    VARCHAR(50),
+  reference    VARCHAR(50),
+  shipping_id  INT,
+  tax_id       INT,
+  PRIMARY KEY  (order_id),
+  KEY idx_orders_customer_id (customer_id),
+  KEY idx_orders_shipping_id (shipping_id),
+  KEY idx_orders_tax_id (tax_id)
 ) ENGINE=MyISAM;
 
 -- Create order_details table
-CREATE TABLE `order_detail` (
-  `item_id`      INT           NOT NULL  AUTO_INCREMENT,
-  `order_id`     INT           NOT NULL,
-  `product_id`   INT           NOT NULL,
-  `attributes`   VARCHAR(1000) NOT NULL,
-  `product_name` VARCHAR(100)  NOT NULL,
-  `quantity`     INT           NOT NULL,
-  `unit_cost`    DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY  (`item_id`),
-  KEY `idx_order_detail_order_id` (`order_id`)
+CREATE TABLE order_detail (
+  item_id      INT           NOT NULL  AUTO_INCREMENT,
+  order_id     INT           NOT NULL,
+  product_id   INT           NOT NULL,
+  attributes   VARCHAR(1000) NOT NULL,
+  product_name VARCHAR(100)  NOT NULL,
+  quantity     INT           NOT NULL,
+  unit_cost    DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY  (item_id),
+  KEY idx_order_detail_order_id (order_id)
 ) ENGINE=MyISAM;
 
 -- Create shipping_region table
-CREATE TABLE `shipping_region` (
-  `shipping_region_id` INT          NOT NULL  AUTO_INCREMENT,
-  `shipping_region`    VARCHAR(100) NOT NULL,
-  PRIMARY KEY  (`shipping_region_id`)
+CREATE TABLE shipping_region (
+  shipping_region_id INT          NOT NULL  AUTO_INCREMENT,
+  shipping_region    VARCHAR(100) NOT NULL,
+  PRIMARY KEY  (shipping_region_id)
 ) ENGINE=MyISAM;
 
 -- Create customer table
-CREATE TABLE `customer` (
-  `customer_id`        INT           NOT NULL AUTO_INCREMENT,
-  `name`               VARCHAR(50)   NOT NULL,
-  `email`              VARCHAR(100)  NOT NULL,
-  `password`           VARCHAR(50)   NOT NULL,
-  `credit_card`        TEXT,
-  `address_1`          VARCHAR(100),
-  `address_2`          VARCHAR(100),
-  `city`               VARCHAR(100),
-  `region`             VARCHAR(100),
-  `postal_code`        VARCHAR(100),
-  `country`            VARCHAR(100),
-  `shipping_region_id` INT           NOT NULL default '1',
-  `day_phone`          varchar(100),
-  `eve_phone`          varchar(100),
-  `mob_phone`          varchar(100),
-  PRIMARY KEY  (`customer_id`),
-  UNIQUE KEY `idx_customer_email` (`email`),
-  KEY `idx_customer_shipping_region_id` (`shipping_region_id`)
+CREATE TABLE customer (
+  customer_id        INT           NOT NULL AUTO_INCREMENT,
+  name               VARCHAR(50)   NOT NULL,
+  email              VARCHAR(100)  NOT NULL,
+  password           VARCHAR(50)   NOT NULL,
+  credit_card        TEXT,
+  address_1          VARCHAR(100),
+  address_2          VARCHAR(100),
+  city               VARCHAR(100),
+  region             VARCHAR(100),
+  postal_code        VARCHAR(100),
+  country            VARCHAR(100),
+  shipping_region_id INT           NOT NULL default '1',
+  day_phone          varchar(100),
+  eve_phone          varchar(100),
+  mob_phone          varchar(100),
+  PRIMARY KEY  (customer_id),
+  UNIQUE KEY idx_customer_email (email),
+  KEY idx_customer_shipping_region_id (shipping_region_id)
 ) ENGINE=MyISAM;
 
 -- Create shipping table
-CREATE TABLE `shipping` (
-  `shipping_id`        INT            NOT NULL AUTO_INCREMENT,
-  `shipping_type`      VARCHAR(100)   NOT NULL,
-  `shipping_cost`      NUMERIC(10, 2) NOT NULL,
-  `shipping_region_id` INT            NOT NULL,
-  PRIMARY KEY (`shipping_id`),
-  KEY `idx_shipping_shipping_region_id` (`shipping_region_id`)
+CREATE TABLE shipping (
+  shipping_id        INT            NOT NULL AUTO_INCREMENT,
+  shipping_type      VARCHAR(100)   NOT NULL,
+  shipping_cost      NUMERIC(10, 2) NOT NULL,
+  shipping_region_id INT            NOT NULL,
+  PRIMARY KEY (shipping_id),
+  KEY idx_shipping_shipping_region_id (shipping_region_id)
 ) ENGINE=MyISAM;
 
 -- Create tax table
-CREATE TABLE `tax` (
-  `tax_id`         INT            NOT NULL  AUTO_INCREMENT,
-  `tax_type`       VARCHAR(100)   NOT NULL,
-  `tax_percentage` NUMERIC(10, 2) NOT NULL,
-  PRIMARY KEY (`tax_id`)
+CREATE TABLE tax (
+  tax_id         INT            NOT NULL  AUTO_INCREMENT,
+  tax_type       VARCHAR(100)   NOT NULL,
+  tax_percentage NUMERIC(10, 2) NOT NULL,
+  PRIMARY KEY (tax_id)
 ) ENGINE=MyISAM;
 
 -- Create audit table
-CREATE TABLE `audit` (
-  `audit_id`       INT      NOT NULL AUTO_INCREMENT,
-  `order_id`       INT      NOT NULL,
-  `created_on`     DATETIME NOT NULL,
-  `message`        TEXT     NOT NULL,
-  `code`           INT      NOT NULL,
-  PRIMARY KEY (`audit_id`),
-  KEY `idx_audit_order_id` (`order_id`)
+CREATE TABLE audit (
+  audit_id       INT      NOT NULL AUTO_INCREMENT,
+  order_id       INT      NOT NULL,
+  created_on     DATETIME NOT NULL,
+  message        TEXT     NOT NULL,
+  code           INT      NOT NULL,
+  PRIMARY KEY (audit_id),
+  KEY idx_audit_order_id (order_id)
 ) ENGINE=MyISAM;
 
 -- Create review table
-CREATE TABLE `review` (
-  `review_id`   INT      NOT NULL  AUTO_INCREMENT,
-  `customer_id` INT      NOT NULL,
-  `product_id`  INT      NOT NULL,
-  `review`      TEXT     NOT NULL,
-  `rating`      SMALLINT NOT NULL,
-  `created_on`  DATETIME NOT NULL,
-  PRIMARY KEY (`review_id`),
-  KEY `idx_review_customer_id` (`customer_id`),
-  KEY `idx_review_product_id` (`product_id`)
+CREATE TABLE review (
+  review_id   INT      NOT NULL  AUTO_INCREMENT,
+  customer_id INT      NOT NULL,
+  product_id  INT      NOT NULL,
+  review      TEXT     NOT NULL,
+  rating      SMALLINT NOT NULL,
+  created_on  DATETIME NOT NULL,
+  PRIMARY KEY (review_id),
+  KEY idx_review_customer_id (customer_id),
+  KEY idx_review_product_id (product_id)
 ) ENGINE=MyISAM;
 
 -- Populate department table
-INSERT INTO `department` (`department_id`, `name`, `description`) VALUES
+INSERT INTO department (department_id, name, description) VALUES
        (1, 'Regional', 'Proud of your country? Wear a T-shirt with a national symbol stamp!'),
        (2, 'Nature', 'Find beautiful T-shirts with animals and flowers in our Nature department!'),
        (3, 'Seasonal', 'Each time of the year has a special flavor. Our seasonal T-shirts express traditional symbols using unique postal stamp pictures.');
 
 -- Populate category table
-INSERT INTO `category` (`category_id`, `department_id`, `name`, `description`) VALUES
+INSERT INTO category (category_id, department_id, name, description) VALUES
        (1, 1, 'French', 'The French have always had an eye for beauty. One look at the T-shirts below and you''ll see that same appreciation has been applied abundantly to their postage stamps. Below are some of our most beautiful and colorful T-shirts, so browse away! And don''t forget to go all the way to the bottom - you don''t want to miss any of them!'),
        (2, 1, 'Italian', 'The full and resplendent treasure chest of art, literature, music, and science that Italy has given the world is reflected splendidly in its postal stamps. If we could, we would dedicate hundreds of T-shirts to this amazing treasure of beautiful images, but for now we will have to live with what you see here. You don''t have to be Italian to love these gorgeous T-shirts, just someone who appreciates the finer things in life!'),
        (3, 1, 'Irish', 'It was Churchill who remarked that he thought the Irish most curious because they didn''t want to be English. How right he was! But then, he was half-American, wasn''t he? If you have an Irish genealogy you will want these T-shirts! If you suddenly turn Irish on St. Patrick''s Day, you too will want these T-shirts! Take a look at some of the coolest T-shirts we have!'),
@@ -198,7 +198,7 @@ INSERT INTO `category` (`category_id`, `department_id`, `name`, `description`) V
        (7, 3, 'Valentine''s', 'For the more timid, all you have to do is wear your heartfelt message to get it across. Buy one for you and your sweetie(s) today!');
 
 -- Populate product table
-INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `discounted_price`, `image`, `image_2`, `thumbnail`, `display`) VALUES
+INSERT INTO product (product_id, name, description, price, discounted_price, image, image_2, thumbnail, display) VALUES
        (1, 'Arc d''Triomphe', 'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.', 14.99, 0.00, 'arc-d-triomphe.gif', 'arc-d-triomphe-2.gif', 'arc-d-triomphe-thumbnail.gif', 0),
        (2, 'Chartres Cathedral', '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!', 16.95, 15.95, 'chartres-cathedral.gif', 'chartres-cathedral-2.gif', 'chartres-cathedral-thumbnail.gif', 2),
        (3, 'Coat of Arms', 'There''s good reason why the ship plays a prominent part on this shield!', 14.50, 0.00, 'coat-of-arms.gif', 'coat-of-arms-2.gif', 'coat-of-arms-thumbnail.gif', 0),
@@ -216,7 +216,7 @@ INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `discounted
        (15, 'Notre Dame', 'Commemorating the 800th anniversary of the famed cathedral.', 18.50, 16.99, 'notre-dame.gif', 'notre-dame-2.gif', 'notre-dame-thumbnail.gif', 2),
        (16, 'Paris Peace Conference', 'The resulting treaties allowed Italy, Romania, Hungary, Bulgaria, and Finland to reassume their responsibilities as sovereign states in international affairs and thus qualify for membership in the UN.', 16.95, 15.99, 'paris-peace-conference.gif', 'paris-peace-conference-2.gif', 'paris-peace-conference-thumbnail.gif', 2),
        (17, 'Sarah Bernhardt', 'The "Divine Sarah" said this about Americans: "You are younger than we as a race, you are perhaps barbaric, but what of it? You are still in the molding. Your spirit is superb. It is what helped us win the war." Perhaps we''re still barbaric but we''re still winning wars for them too!', 14.99, 0.00, 'sarah-bernhardt.gif', 'sarah-bernhardt-2.gif', 'sarah-bernhardt-thumbnail.gif', 0),
-       (18, 'Hunt', 'A scene from "Les Tres Riches Heures," a medieval "book of hours" containing the text for each liturgical hour of the day. This scene is from a 14th century painting.', 16.99, 15.95, 'hunt.gif', 'hunt-2.gif', 'hunt-thumbnail.gif', 2), 
+       (18, 'Hunt', 'A scene from "Les Tres Riches Heures," a medieval "book of hours" containing the text for each liturgical hour of the day. This scene is from a 14th century painting.', 16.99, 15.95, 'hunt.gif', 'hunt-2.gif', 'hunt-thumbnail.gif', 2),
        (19, 'Italia', 'The War had just ended when this stamp was designed, and even so, there was enough optimism to show the destroyed oak tree sprouting again from its stump! What a beautiful T-shirt!', 22.00, 18.99, 'italia.gif', 'italia-2.gif', 'italia-thumbnail.gif', 2),
        (20, 'Torch', 'The light goes on! Carry the torch with this T-shirt and be a beacon of hope for the world!', 19.99, 17.95, 'torch.gif', 'torch-2.gif', 'torch-thumbnail.gif', 2),
        (21, 'Espresso', 'The winged foot of Mercury speeds the Special Delivery mail to its destination. In a hurry? This T-shirt is for you!', 16.95, 0.00, 'espresso.gif', 'espresso-2.gif', 'espresso-thumbnail.gif', 0),
@@ -284,7 +284,7 @@ INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `discounted
        (83, 'Weather Vane', 'This weather vane dates from the 1830''s and is still showing which way the wind blows! Trumpet your arrival with this unique Christmas T-shirt.', 15.95, 14.99, 'weather-vane.gif', 'weather-vane-2.gif', 'weather-vane-thumbnail.gif', 2),
        (84, 'Mistletoe', 'This well-known parasite and killer of trees was revered by the Druids, who would go out and gather it with great ceremony. Youths would go about with it to announce the new year. Eventually more engaging customs were attached to the strange plant, and we''re here to see that they continue with these cool Christmas T-shirts.', 19.00, 17.99, 'mistletoe.gif', 'mistletoe-2.gif', 'mistletoe-thumbnail.gif', 3),
        (85, 'Altar Piece', 'This beautiful angel Christmas T-shirt is awaiting the opportunity to adorn your chest!', 20.50, 18.50, 'altar-piece.gif', 'altar-piece-2.gif', 'altar-piece-thumbnail.gif', 2),
-       (86, 'The Three Wise Men', 'This is a classic rendition of one of the season’s most beloved stories, and now showing on a Christmas T-shirt for you!', 12.99, 0.00, 'the-three-wise-men.gif', 'the-three-wise-men-2.gif', 'the-three-wise-men-thumbnail.gif', 0),
+       (86, 'The Three Wise Men', 'This is a classic rendition of one of the seasonï¿½s most beloved stories, and now showing on a Christmas T-shirt for you!', 12.99, 0.00, 'the-three-wise-men.gif', 'the-three-wise-men-2.gif', 'the-three-wise-men-thumbnail.gif', 0),
        (87, 'Christmas Tree', 'Can you get more warm and folksy than this classic Christmas T-shirt?', 20.00, 17.95, 'christmas-tree.gif', 'christmas-tree-2.gif', 'christmas-tree-thumbnail.gif', 2),
        (88, 'Madonna & Child', 'This exquisite image was painted by Filipino Lippi, a 15th century Italian artist. I think he would approve of it on a Going Postal Christmas T-shirt!', 21.95, 18.50, 'madonna-child.gif', 'madonna-child-2.gif', 'madonna-child-thumbnail.gif', 0),
        (89, 'The Virgin Mary', 'This stained glass window is found in Glasgow Cathedral, Scotland, and was created by Gabriel Loire of France, one of the most prolific of artists in this medium--and now you can have it on this wonderful Christmas T-shirt.', 16.95, 15.95, 'the-virgin-mary.gif', 'the-virgin-mary-2.gif', 'the-virgin-mary-thumbnail.gif', 2),
@@ -302,7 +302,7 @@ INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `discounted
        (101, 'The Promise of Spring', 'With Valentine''s Day come, can Spring be far behind?', 21.00, 19.50, 'the-promise-of-spring.gif', 'the-promise-of-spring-2.gif', 'the-promise-of-spring-thumbnail.gif', 0);
 
 -- Populate product_category table
-INSERT INTO `product_category` (`product_id`, `category_id`) VALUES
+INSERT INTO product_category (product_id, category_id) VALUES
        (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1),
        (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1), (17, 1),
        (18, 1), (19, 2), (20, 2), (21, 2), (22, 2), (23, 2), (24, 2), (25, 2),
@@ -318,29 +318,29 @@ INSERT INTO `product_category` (`product_id`, `category_id`) VALUES
        (95, 6), (96, 7), (97, 7), (98, 7), (99, 7), (100, 7), (101, 7);
 
 -- Populate attribute table
-INSERT INTO `attribute` (`attribute_id`, `name`) VALUES
+INSERT INTO attribute (attribute_id, name) VALUES
        (1, 'Size'), (2, 'Color');
 
 -- Populate attribute_value table
-INSERT INTO `attribute_value` (`attribute_value_id`, `attribute_id`, `value`) VALUES
+INSERT INTO attribute_value (attribute_value_id, attribute_id, value) VALUES
        (1, 1, 'S'), (2, 1, 'M'), (3, 1, 'L'), (4, 1, 'XL'), (5, 1, 'XXL'),
        (6, 2, 'White'),  (7, 2, 'Black'), (8, 2, 'Red'), (9, 2, 'Orange'),
        (10, 2, 'Yellow'), (11, 2, 'Green'), (12, 2, 'Blue'),
        (13, 2, 'Indigo'), (14, 2, 'Purple');
 
 -- Populate product_attribute table
-INSERT INTO `product_attribute` (`product_id`, `attribute_value_id`)
-       SELECT `p`.`product_id`, `av`.`attribute_value_id`
-       FROM   `product` `p`, `attribute_value` `av`;
+INSERT INTO product_attribute (product_id, attribute_value_id)
+       SELECT p.product_id, av.attribute_value_id
+       FROM   product p, attribute_value av;
 
 -- Populate shipping_region table
-INSERT INTO `shipping_region` (`shipping_region_id`, `shipping_region`) VALUES
+INSERT INTO shipping_region (shipping_region_id, shipping_region) VALUES
        (1, 'Please Select') , (2, 'US / Canada'),
        (3, 'Europe'),         (4, 'Rest of World');
 
 -- Populate shipping table
-INSERT INTO `shipping` (`shipping_id`,   `shipping_type`,
-                        `shipping_cost`, `shipping_region_id`) VALUES
+INSERT INTO shipping (shipping_id,   shipping_type,
+                        shipping_cost, shipping_region_id) VALUES
        (1, 'Next Day Delivery ($20)', 20.00, 2),
        (2, '3-4 Days ($10)',          10.00, 2),
        (3, '7 Days ($5)',              5.00, 2),
@@ -350,7 +350,7 @@ INSERT INTO `shipping` (`shipping_id`,   `shipping_type`,
        (7, 'By sea (28 days, $30)',   30.00, 4);
 
 -- Populate tax table
-INSERT INTO `tax` (`tax_id`, `tax_type`, `tax_percentage`) VALUES
+INSERT INTO tax (tax_id, tax_type, tax_percentage) VALUES
        (1, 'Sales Tax at 8.5%', 8.50),
        (2, 'No Tax',            0.00);
 
@@ -419,11 +419,11 @@ BEGIN
     LIMIT      ?, ?";
 
   -- Define query parameters
-  SET @p1 = inShortProductDescriptionLength; 
-  SET @p2 = inShortProductDescriptionLength; 
+  SET @p1 = inShortProductDescriptionLength;
+  SET @p2 = inShortProductDescriptionLength;
   SET @p3 = inCategoryId;
-  SET @p4 = inStartItem; 
-  SET @p5 = inProductsPerPage; 
+  SET @p4 = inStartItem;
+  SET @p5 = inProductsPerPage;
 
   -- Execute the statement
   EXECUTE statement USING @p1, @p2, @p3, @p4, @p5;
@@ -661,7 +661,7 @@ BEGIN
   FROM   category
   WHERE  department_id = inDepartmentId
   INTO   categoryRowsCount;
-  
+
   IF categoryRowsCount = 0 THEN
     DELETE FROM department WHERE department_id = inDepartmentId;
 
@@ -1352,7 +1352,7 @@ BEGIN
 
   -- Save the order's total amount
   UPDATE orders
-  SET    total_amount = (SELECT SUM(unit_cost * quantity) 
+  SET    total_amount = (SELECT SUM(unit_cost * quantity)
                          FROM   order_detail
                          WHERE  order_id = orderId)
   WHERE  order_id = orderId;
