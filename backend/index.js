@@ -2,7 +2,6 @@ import express from 'express';
 import config from 'lazy-config';
 import bodyParser from 'body-parser';
 import expressJwt from 'express-jwt';
-import boom from 'boom';
 
 import logger from './logger';
 // import db from './db';
