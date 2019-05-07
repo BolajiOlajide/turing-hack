@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import expressJwt from 'express-jwt';
 
 import logger from './logger';
-// import db from './db';
 import apiResponse from './utils/apiResponse';
 import { unprotectedRoutes } from './utils/routes';
 
@@ -14,10 +13,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const { isDev, app: { port: PORT } } = config;
+const { app: { port: PORT } } = config;
 
 app.use(expressJwt({
-  secret: config.authentication.jwtSecret,
+  secret: config.authentication.secret,
   requestProperty: 'auth',
   getToken: (req) => {
     if (req.headers['USER-KEY'] && req.headers['USER-KEY'].split(' ')[0] === 'Bearer') {
@@ -34,12 +33,6 @@ app.use((err, req, res, next) => {
     return next(apiResponse(res, 'error', err.message, 401));
   }
 });
-
-if (isDev) {
-  /* eslint-disable global-require */
-  app.use(require('koii'));
-  /* eslint-enable */
-}
 
 app.listen(PORT, err => {
   if (err) {

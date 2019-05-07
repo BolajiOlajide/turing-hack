@@ -1,4 +1,3 @@
-import config from 'lazy-config';
 import knex from 'knex';
 import bookshelf from 'bookshelf';
 import bookshelfBcrypt from 'bookshelf-bcrypt';
