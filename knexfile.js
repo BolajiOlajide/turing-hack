@@ -2,12 +2,8 @@
 const config = require('lazy-config');
 
 
-const baseCfg = {
-
-};
-
-export default {
-  client: 'pg',
+module.exports = {
+  client: 'mysql2',
   debug: false,
   pool: { min: 2, max: 10 },
   migrations: { tableName: 'knex_migrations' },
