@@ -14,6 +14,7 @@
  "rules": {
    "require-jsdoc": 0,
    "babel/new-cap": 0,
-   "camelcase": 0
+   "camelcase": 0,
+   "dot-notation": 0
  }
 }

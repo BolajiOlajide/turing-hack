@@ -36,7 +36,7 @@ app.use(expressJwt({
 }).unless({ path: unprotectedRoutes }));
 
 app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to turing!' }));
-app.use('/department', DeptRoutes);
+app.use('/departments', DeptRoutes);
 
 app.use(catchErrors);
 app.use(authErrors);
