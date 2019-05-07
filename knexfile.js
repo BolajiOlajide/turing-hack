@@ -3,9 +3,13 @@ const config = require('lazy-config');
 
 
 const baseCfg = {
-  client: 'mysql2',
+
+};
+
+export default {
+  client: 'pg',
   debug: false,
-  pool: { min: 1, max: 2 },
+  pool: { min: 2, max: 10 },
   migrations: { tableName: 'knex_migrations' },
   seeds: { directory: './seeds' },
   connection: {
@@ -13,17 +17,5 @@ const baseCfg = {
     user: config.db.user,
     password: config.db.password,
     database: config.db.name
-  }
-};
-
-export default {
-  development: {
-    ...baseCfg,
-    debug: false,
-  },
-
-  production: {
-    ...baseCfg,
-    pool: { min: 2, max: 10 },
   }
 };
