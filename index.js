@@ -11,6 +11,7 @@ import DeptRoutes from './routes/department.route';
 // utils
 import apiResponse from './utils/apiResponse';
 import { unprotectedRoutes } from './utils/routes';
+import { AUT_02 } from './utils/errorCodes';
 
 
 const app = express();
@@ -24,9 +25,11 @@ app.use(expressJwt({
   secret: config.authentication.secret,
   requestProperty: 'auth',
   getToken: (req) => {
-    if (req.headers['USER-KEY'] && req.headers['USER-KEY'].split(' ')[0] === 'Bearer') {
+    console.log(req.headers, '<=== req.headers');
+    if (req.headers['user-key'] && req.headers['user-key'].split(' ')[0] === 'Bearer') {
       return req.headers.authorization.split(' ')[1];
     }
+    // throw Error('Legbegbe');
     return null;
   }
 }).unless({ path: unprotectedRoutes }));
@@ -36,7 +39,14 @@ app.use('/department', DeptRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
-    return next(apiResponse(res, 'error', err.message, 401));
+    return next(apiResponse(
+      res,
+      'error',
+      err.message,
+      401,
+      AUT_02,
+      'Authorization'
+    ));
   }
   return next(apiResponse(res, 'error', err.message, 400));
 });
