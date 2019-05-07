@@ -4,6 +4,11 @@ import bodyParser from 'body-parser';
 import expressJwt from 'express-jwt';
 
 import logger from './logger';
+
+// routes
+import DeptRoutes from './routes/department.route';
+
+// utils
 import apiResponse from './utils/apiResponse';
 import { unprotectedRoutes } from './utils/routes';
 
@@ -26,12 +31,14 @@ app.use(expressJwt({
   }
 }).unless({ path: unprotectedRoutes }));
 
-app.get('/', (req, res) => apiResponse(res, 'success', 'Sample express application'));
+app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to turing!' }));
+app.use('/department', DeptRoutes);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     return next(apiResponse(res, 'error', err.message, 401));
   }
+  return next(apiResponse(res, 'error', err.message, 400));
 });
 
 app.listen(PORT, err => {
