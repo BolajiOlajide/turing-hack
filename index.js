@@ -11,8 +11,7 @@ import DeptRoutes from './routes/department.route';
 // utils
 import apiResponse from './utils/apiResponse';
 import { unprotectedRoutes } from './utils/routes';
-import { AUT_02 } from './utils/errorCodes';
-
+import { catchErrors, authErrors } from './handlers/error.handler';
 
 const app = express();
 
@@ -25,11 +24,13 @@ app.use(expressJwt({
   secret: config.authentication.secret,
   requestProperty: 'auth',
   getToken: (req) => {
-    console.log(req.headers, '<=== req.headers');
-    if (req.headers['user-key'] && req.headers['user-key'].split(' ')[0] === 'Bearer') {
+    if (!('user-key' in req.headers)) {
+      const tokenError = new Error('Token not found!');
+      tokenError.name = 'TokenError';
+      throw tokenError;
+    } else if (req.headers['user-key'] && req.headers['user-key'].split(' ')[0] === 'Bearer') {
       return req.headers.authorization.split(' ')[1];
     }
-    // throw Error('Legbegbe');
     return null;
   }
 }).unless({ path: unprotectedRoutes }));
@@ -37,19 +38,8 @@ app.use(expressJwt({
 app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to turing!' }));
 app.use('/department', DeptRoutes);
 
-app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    return next(apiResponse(
-      res,
-      'error',
-      err.message,
-      401,
-      AUT_02,
-      'Authorization'
-    ));
-  }
-  return next(apiResponse(res, 'error', err.message, 400));
-});
+app.use(catchErrors);
+app.use(authErrors);
 
 app.listen(PORT, err => {
   if (err) {

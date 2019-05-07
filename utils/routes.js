@@ -1,4 +1,4 @@
 exports.unprotectedRoutes = [
-  /\/department/,
+  { url: /\/department/, methods: 'GET' },
   { url: '/', methods: ['GET'] }
 ];
