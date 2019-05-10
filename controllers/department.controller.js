@@ -3,7 +3,7 @@ import Department from '../models/department.model';
 
 // utils
 import apiResponse from '../utils/apiResponse';
-import { DEP_01, DEP_02 } from '../utils/errorCodes';
+import { DEP_02 } from '../utils/errorCodes';
 
 
 const DeptCtrl = {
@@ -22,7 +22,7 @@ const DeptCtrl = {
       const department = await Department.where({ department_id: departmentId }).fetch();
 
       if (!department) {
-        const msg = 'Don\'exist department with this ID.';
+        const msg = 'Don\'t exist department with this ID.';
         return apiResponse(res, 'error', msg, 404, DEP_02, 'department_id');
       }
       return apiResponse(res, 'success', department);

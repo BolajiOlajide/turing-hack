@@ -19,6 +19,7 @@ export const USR_09 = 'USR_09';
 
 // category errors
 export const CAT_01 = 'CAT_01';
+export const CAT_O2 = 'CAT_O2';
 
 // department errors
 export const DEP_01 = 'DEP_01';
