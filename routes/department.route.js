@@ -12,7 +12,7 @@ const router = Router();
 router.route('/')
   .get(DeptCtrl.fetchDepartments);
 
-router.route('/:departmentId')
+router.route('/:department_id')
   .get(checkForValidDepartmentId, DeptCtrl.fetchDepartmentById);
 
 export default router;

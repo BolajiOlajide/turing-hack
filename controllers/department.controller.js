@@ -17,9 +17,9 @@ const DeptCtrl = {
   },
   async fetchDepartmentById(req, res) {
     try {
-      const { departmentId } = req.params;
+      const { department_id } = req.params;
 
-      const department = await Department.where({ department_id: departmentId }).fetch();
+      const department = await Department.where({ department_id }).fetch();
 
       if (!department) {
         const msg = 'Don\'t exist department with this ID.';
