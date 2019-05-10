@@ -12,7 +12,7 @@ import CategoryRoutes from './routes/category.route';
 // utils
 import apiResponse from './utils/apiResponse';
 // import { unprotectedRoutes } from './utils/routes';
-import { catchErrors, authErrors } from './handlers/error.handler';
+import { authErrors } from './handlers/error.handler';
 // import { getToken } from './utils/auth';
 
 const app = express();
