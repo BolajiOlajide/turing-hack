@@ -2,7 +2,7 @@ import db from '../db';
 
 
 export default db.Model.extend({
-  tableName: 'custromer',
+  tableName: 'customer',
   bcrypt: { field: 'password' },
   idAttribute: 'customer_id'
 });
