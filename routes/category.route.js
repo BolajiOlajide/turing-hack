@@ -3,7 +3,7 @@ import { Router } from 'express';
 // controllers
 import CategoryCtrl from '../controllers/category.controller';
 
-// utils
+// middleware
 import { paginationCheck } from '../middleware/pagination.middleware';
 
 

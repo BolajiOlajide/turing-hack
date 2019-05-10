@@ -8,14 +8,14 @@ export const catchErrors = (fn) => (req, res, next) => fn(req, res, next)
 
 export const authErrors = (error, req, res, next) => {
   const {
-    code, field, message, status_code
+    code, field, message, statusCode
   } = error;
 
   return next(apiResponse(
     res,
     'error',
     message,
-    status_code,
+    statusCode,
     code,
     field
   ));

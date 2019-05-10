@@ -18,11 +18,7 @@ const DeptCtrl = {
   async fetchDepartmentById(req, res) {
     try {
       const { departmentId } = req.params;
-      const isNumber = !(isNaN(departmentId));
-      if (!isNumber) {
-        const msg = 'departmentId should be a number';
-        return apiResponse(res, 'error', msg, 400, DEP_01, 'department_id');
-      }
+
       const department = await Department.where({ department_id: departmentId }).fetch();
 
       if (!department) {
