@@ -4,7 +4,7 @@ import { Router } from 'express';
 import CategoryCtrl from '../controllers/category.controller';
 
 // middleware
-import { paginationCheck } from '../middleware/pagination.middleware';
+import { paginationCheck, checkForValidCategoryId } from '../middleware';
 
 
 const router = Router();
@@ -14,5 +14,11 @@ router.route('/')
     paginationCheck(['category_id', 'name']),
     CategoryCtrl.fetchCategories
   );
+
+router.route('/:category_id')
+  .get(checkForValidCategoryId, CategoryCtrl.fetchCategoryById);
+
+router.route('/categories/inProduct/:product_id')
+  .get(CategoryCtrl.fetchCategiesByProduct);
 
 export default router;

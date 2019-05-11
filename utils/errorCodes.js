@@ -24,3 +24,6 @@ export const CAT_O2 = 'CAT_O2';
 // department errors
 export const DEP_01 = 'DEP_01';
 export const DEP_02 = 'DEP_02';
+
+// product errors
+export const PRD_01 = 'PRD_01';
