@@ -4,8 +4,10 @@ import db from '../db';
 import Department from './department.model';
 
 
-export default db.Model.extend({
-  tableName: 'category',
-  idAttribute: 'category_id',
-  department: () => this.belongsTo(Department, 'department_id')
-});
+export default class Category extends db.Model {
+  get tableName() { return 'category'; }
+
+  get idAttribute() { return 'category_id'; }
+
+  department() { return this.belongsTo(Department, 'department_id'); }
+}

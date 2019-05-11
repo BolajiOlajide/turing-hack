@@ -1,7 +1,8 @@
 import db from '../db';
 
 
-export default db.Model.extend({
-  tableName: 'department',
-  idAttribute: 'department_id'
-});
+export default class Department extends db.Model {
+  get tableName() { return 'department'; }
+
+  get idAttribute() { return 'department_id'; }
+}
