@@ -4,7 +4,7 @@ import { Router } from 'express';
 import DeptCtrl from '../controllers/department.controller';
 
 // middleware
-import { checkForValidDepartmentId } from '../middleware/department.middleware';
+import { checkForValidDepartmentId } from '../middleware';
 
 
 const router = Router();

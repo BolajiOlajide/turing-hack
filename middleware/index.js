@@ -4,7 +4,7 @@ import { CAT_O2, PRD_01, DEP_01, PAG_02, PAG_01 } from '../utils/errorCodes';
 export const paginationCheck = allowedFields => (req, res, next) => {
   const { order: orderString, limit, page } = req.query;
 
-  if (isNaN(limit) || isNaN(page)) {
+  if ((limit && isNaN(limit)) || (page && isNaN(page))) {
     const error = new Error('Limit and Page must be of numeric value');
     error.code = PAG_02;
     error.statusCode = 400;
