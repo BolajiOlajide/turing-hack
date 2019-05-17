@@ -48,7 +48,6 @@ const DeptCtrl = {
     try {
       const { product_id } = req.params;
 
-      const query = { where: { product_id } };
       const productCategory = await ProductCategory.where({ product_id }).fetchAll({
         withRelated: ['category']
       });
