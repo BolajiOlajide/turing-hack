@@ -1,13 +1,10 @@
 const tblName = 'product_category';
-const rawSql = `CREATE TABLE ${tblName} (
-  product_id INT NOT NULL,
-  category_id INT NOT NULL,
-  PRIMARY KEY (product_id, category_id)
-)`;
 
 exports.up = knex => knex
-  .schema.hasTable(tblName)
-  .then(exists => !exists && knex.schema.raw(rawSql));
+  .schema.createTable(tblName, tbl => {
+    tbl.integer('product_id').references('product.product_id');
+    tbl.integer('category_id').references('category_id').inTable('category');
+  });
 
 exports.down = knex => knex
   .schema.dropTableIfExists(tblName);
