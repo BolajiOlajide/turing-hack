@@ -48,13 +48,17 @@ const DeptCtrl = {
     try {
       const { product_id } = req.params;
 
-      const category = await Category.where({ category_id }).fetch();
+      const query = { where: { product_id } };
+      const productCategory = await ProductCategory.where({ product_id }).fetchAll({
+        withRelated: ['category']
+      });
 
-      if (!category) {
-        const msg = 'Don\'t exist category with this ID.';
+      if (!productCategory) {
+        const msg = 'Don\'t exist product_category with this ID.';
         return apiResponse(res, 'error', msg, 404, CAT_01, 'category_id');
       }
-      return apiResponse(res, 'success', category);
+      // console.log(productCategory.models[0])
+      return apiResponse(res, 'success', productCategory);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }

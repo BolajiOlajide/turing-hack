@@ -18,7 +18,7 @@ router.route('/')
 router.route('/:category_id')
   .get(checkForValidCategoryId, CategoryCtrl.fetchCategoryById);
 
-router.route('/categories/inProduct/:product_id')
+router.route('/inProduct/:product_id')
   .get(CategoryCtrl.fetchCategiesByProduct);
 
 export default router;

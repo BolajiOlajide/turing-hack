@@ -12,7 +12,8 @@
     "make:seed": "knex seed:make $1",
     "seed": "knex seed:run",
     "lint": "eslint .",
-    "fix": "eslint . --fix"
+    "fix": "eslint . --fix",
+    "prepare": "yarn migrate && yarn seed"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
