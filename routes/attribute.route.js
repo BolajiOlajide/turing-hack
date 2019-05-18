@@ -4,7 +4,7 @@ import { Router } from 'express';
 import AttributeCtrl from '../controllers/attribute.controller';
 
 // middleware
-import { checkForValidAttributeId } from '../middleware';
+import { checkForValidAttributeId, checkForValidProductId } from '../middleware';
 
 
 const router = Router();
@@ -17,5 +17,8 @@ router.route('/:attribute_id')
 
 router.route('/values/:attribute_id')
   .get(checkForValidAttributeId, AttributeCtrl.fetchAttributeValue);
+
+router.route('/inProduct/:product_id')
+  .get(checkForValidProductId, AttributeCtrl.fetchProductAttributeValue);
 
 export default router;

@@ -1,3 +1,5 @@
+import db from '../db';
+
 // models
 import Attribute from '../models/attribute.model';
 import AttributeValue from '../models/attributeValue.model';
@@ -43,6 +45,22 @@ const AttributeCtrl = {
         });
 
       return apiResponse(res, 'success', attribute_value);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async fetchProductAttributeValue(req, res) {
+    try {
+      const { product_id } = req.params;
+      const query = `SELECT aa.name, av.attribute_value_id, av.value FROM product_attribute AS pa
+      INNER JOIN attribute_value AS av ON av.attribute_value_id = pa.attribute_value_id
+      INNER JOIN attribute AS aa ON aa.attribute_id = av.attribute_id
+      WHERE pa.product_id = ?
+      `;
+      const [attributes] = await db.knex.raw(query, product_id);
+
+      return apiResponse(res, 'success', attributes);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
