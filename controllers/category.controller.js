@@ -1,3 +1,4 @@
+import db from '../db';
 // models
 import Category from '../models/category.model';
 import ProductCategory from '../models/productCategory.model';
@@ -47,17 +48,19 @@ const DeptCtrl = {
   async fetchCategiesByProduct(req, res) {
     try {
       const { product_id } = req.params;
+      const query = `SELECT ca.category_id, ca.department_id, ca.name FROM product_category AS pc
+      INNER JOIN category AS ca ON pc.category_id = ca.category_id
+      WHERE pc.product_id = ?
+      `;
 
-      const productCategory = await ProductCategory.where({ product_id }).fetchAll({
-        withRelated: ['category']
-      });
+      const [categories] = await db.knex.raw(query, product_id);
 
-      if (!productCategory) {
+      if (!categories) {
         const msg = 'Don\'t exist product_category with this ID.';
         return apiResponse(res, 'error', msg, 404, CAT_01, 'category_id');
       }
-      // console.log(productCategory.models[0])
-      return apiResponse(res, 'success', productCategory);
+
+      return apiResponse(res, 'success', categories);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
