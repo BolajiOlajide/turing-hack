@@ -15,4 +15,7 @@ router.route('/')
 router.route('/:attribute_id')
   .get(checkForValidAttributeId, AttributeCtrl.fetchAttribute);
 
+router.route('/values/:attribute_id')
+  .get(checkForValidAttributeId, AttributeCtrl.fetchAttributeValue);
+
 export default router;

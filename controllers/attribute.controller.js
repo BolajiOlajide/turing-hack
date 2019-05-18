@@ -1,5 +1,6 @@
 // models
 import Attribute from '../models/attribute.model';
+import AttributeValue from '../models/attributeValue.model';
 
 // utils
 import apiResponse from '../utils/apiResponse';
@@ -27,6 +28,21 @@ const AttributeCtrl = {
       }
 
       return apiResponse(res, 'success', attribute);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async fetchAttributeValue(req, res) {
+    try {
+      const { attribute_id } = req.params;
+
+      const attribute_value = await AttributeValue
+        .where({ attribute_id }).fetchAll({
+          columns: ['attribute_value_id', 'value']
+        });
+
+      return apiResponse(res, 'success', attribute_value);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
