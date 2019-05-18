@@ -1,7 +1,6 @@
 import db from '../db';
 // models
 import Category from '../models/category.model';
-import ProductCategory from '../models/productCategory.model';
 
 // utils
 import apiResponse from '../utils/apiResponse';

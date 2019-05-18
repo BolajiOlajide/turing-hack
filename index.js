@@ -8,6 +8,7 @@ import logger from './logger';
 // routes
 import DeptRoutes from './routes/department.route';
 import CategoryRoutes from './routes/category.route';
+import AttributeRoutes from './routes/attribute.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
@@ -31,6 +32,7 @@ const { app: { port: PORT } } = config;
 app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to turing!' }));
 app.use('/departments', DeptRoutes);
 app.use('/categories', CategoryRoutes);
+app.use('/attributes', AttributeRoutes);
 app.use('*', (req, res) => apiResponse(res, 'failure', 'Route doesn\'t exist', 404));
 
 app.use(authErrors);
