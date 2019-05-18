@@ -4,7 +4,12 @@ import { Router } from 'express';
 import CategoryCtrl from '../controllers/category.controller';
 
 // middleware
-import { paginationCheck, checkForValidCategoryId } from '../middleware';
+import {
+  paginationCheck,
+  checkForValidCategoryId,
+  checkForValidDepartmentId,
+  checkForValidProductId
+} from '../middleware';
 
 
 const router = Router();
@@ -19,6 +24,9 @@ router.route('/:category_id')
   .get(checkForValidCategoryId, CategoryCtrl.fetchCategoryById);
 
 router.route('/inProduct/:product_id')
-  .get(CategoryCtrl.fetchCategiesByProduct);
+  .get(checkForValidProductId, CategoryCtrl.fetchCategiesByProduct);
+
+router.route('/inDepartment/:department_id')
+  .get(checkForValidDepartmentId, CategoryCtrl.fetchCategoriesByDepartment);
 
 export default router;

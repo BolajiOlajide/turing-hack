@@ -55,11 +55,17 @@ const DeptCtrl = {
 
       const [categories] = await db.knex.raw(query, product_id);
 
-      if (!categories) {
-        const msg = 'Don\'t exist product_category with this ID.';
-        return apiResponse(res, 'error', msg, 404, CAT_01, 'category_id');
-      }
+      return apiResponse(res, 'success', categories);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
 
+  async fetchCategoriesByDepartment(req, res) {
+    try {
+      const { department_id } = req.params;
+
+      const categories = await Category.where({ department_id }).fetchAll();
       return apiResponse(res, 'success', categories);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
