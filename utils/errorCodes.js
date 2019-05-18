@@ -27,3 +27,7 @@ export const DEP_02 = 'DEP_02';
 
 // product errors
 export const PRD_01 = 'PRD_01';
+
+// attribute errors
+export const ATT_01 = 'ATT_01';
+export const ATT_02 = 'ATT_02';

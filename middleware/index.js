@@ -1,4 +1,11 @@
-import { CAT_O2, PRD_01, DEP_01, PAG_02, PAG_01 } from '../utils/errorCodes';
+import {
+  CAT_O2,
+  PRD_01,
+  DEP_01,
+  PAG_02,
+  PAG_01,
+  ATT_02
+} from '../utils/errorCodes';
 
 
 export const paginationCheck = allowedFields => (req, res, next) => {
@@ -75,6 +82,20 @@ export const checkForValidProductId = (req, res, next) => {
     error.code = PRD_01;
     error.statusCode = 400;
     error.field = 'product_id';
+    return next(error);
+  }
+  return next();
+};
+
+export const checkForValidAttributeId = (req, res, next) => {
+  const { attribute_id } = req.params;
+
+  const isNumber = !(isNaN(attribute_id));
+  if (!isNumber) {
+    const error = new Error('attribute should be a number');
+    error.code = ATT_02;
+    error.statusCode = 400;
+    error.field = 'attribute_id';
     return next(error);
   }
   return next();
