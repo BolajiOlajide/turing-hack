@@ -9,6 +9,7 @@ import logger from './logger';
 import DeptRoutes from './routes/department.route';
 import CategoryRoutes from './routes/category.route';
 import AttributeRoutes from './routes/attribute.route';
+import ProductRoutes from './routes/product.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
@@ -33,7 +34,8 @@ app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to tu
 app.use('/departments', DeptRoutes);
 app.use('/categories', CategoryRoutes);
 app.use('/attributes', AttributeRoutes);
-app.use('*', (req, res) => apiResponse(res, 'failure', 'Route doesn\'t exist', 404));
+app.use('/products', ProductRoutes);
+app.use('*', (req, res) => apiResponse(res, 'failure', 'Endpoint not found', 404));
 
 app.use(authErrors);
 

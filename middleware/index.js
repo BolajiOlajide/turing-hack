@@ -8,7 +8,7 @@ import {
 } from '../utils/errorCodes';
 
 
-export const paginationCheck = allowedFields => (req, res, next) => {
+export const paginationCheck = (allowedFields = []) => (req, res, next) => {
   const { order: orderString, limit, page } = req.query;
 
   if ((limit && isNaN(limit)) || (page && isNaN(page))) {
