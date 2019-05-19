@@ -4,7 +4,8 @@ import {
   DEP_01,
   PAG_02,
   PAG_01,
-  ATT_02
+  ATT_02,
+  PRD_02
 } from '../utils/errorCodes';
 
 
@@ -96,6 +97,34 @@ export const checkForValidAttributeId = (req, res, next) => {
     error.code = ATT_02;
     error.statusCode = 400;
     error.field = 'attribute_id';
+    return next(error);
+  }
+  return next();
+};
+
+export const normalizeAllWords = (req, res, next) => {
+  const { all_words } = req.query;
+
+  // eslint-disable-next-line max-len
+  const validAllWords = all_words && ((all_words.toLowerCase() === 'on') || (all_words.toLowerCase() === 'off'));
+
+  if (validAllWords) {
+    req.all_words = all_words.toLowerCase();
+  } else {
+    req.all_words = 'on';
+  }
+
+  return next();
+};
+
+export const checkQueryString = (req, res, next) => {
+  const { query_string } = req.query;
+
+  if (!query_string) {
+    const error = new Error('query_string must be present');
+    error.code = PRD_02;
+    error.statusCode = 400;
+    error.field = 'query_string';
     return next(error);
   }
   return next();
