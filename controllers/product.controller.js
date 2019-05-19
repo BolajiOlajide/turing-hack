@@ -4,6 +4,7 @@ import Product from '../models/product.model';
 
 // utils
 import apiResponse from '../utils/apiResponse';
+import { PRD_03 } from '../utils/errorCodes';
 
 
 const ProductCtrl = {
@@ -62,6 +63,22 @@ const ProductCtrl = {
       const result = { count, rows: models };
 
       return apiResponse(res, 'success', result);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async fetchProductById(req, res) {
+    try {
+      const { product_id } = req.params;
+
+      const product = await Product.where({ product_id }).fetch();
+
+      if (!product) {
+        const msg = 'Don\'t exist product with this ID.';
+        return apiResponse(res, 'error', msg, 404, PRD_03, 'product_id');
+      }
+      return apiResponse(res, 'success', product);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }

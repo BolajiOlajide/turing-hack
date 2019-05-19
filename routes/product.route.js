@@ -4,7 +4,9 @@ import { Router } from 'express';
 import ProductCtrl from '../controllers/product.controller';
 
 // middleware
-import { paginationCheck, normalizeAllWords, checkQueryString } from '../middleware';
+import {
+  paginationCheck, normalizeAllWords, checkQueryString, checkForValidProductId
+} from '../middleware';
 
 const router = Router();
 
@@ -16,6 +18,9 @@ router.route('/')
 
 router.route('/search')
   .get(checkQueryString, normalizeAllWords, ProductCtrl.searchProduct);
+
+router.route('/:product_id')
+  .get(checkForValidProductId, ProductCtrl.fetchProductById);
 
 
 export default router;
