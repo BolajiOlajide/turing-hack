@@ -46,5 +46,8 @@ router.route('/inDepartment/:department_id')
     ProductCtrl.fetchProductsByDepartmentId
   );
 
+router.route('/:product_id/details')
+  .get(checkForValidProductId, ProductCtrl.fetchProductDetails);
+
 
 export default router;
