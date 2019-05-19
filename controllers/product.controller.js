@@ -115,6 +115,39 @@ const ProductCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async fetchProductsByDepartmentId(req, res) {
+    try {
+      const { limit = 20, page = 1, description_length } = req.query;
+      const { department_id } = req.params;
+
+      const desc_length = isNaN(description_length) ? 200 : Number(description_length);
+      const columns = [
+        'product_category.product_id',
+        'product.name',
+        db.knex.raw('substr(product.description, 1, ?) as `description`', desc_length),
+        'product.price',
+        'product.discounted_price',
+        'product.thumbnail',
+        'product.display'
+      ];
+      const paginationQuery = { pageSize: limit, page };
+
+      const { models, pagination: { rowCount: count } } = await ProductCategory
+        .query(qb => qb
+          .innerJoin('product', 'product_category.product_id', 'product.product_id')
+          .innerJoin('category', 'category.category_id', 'product_category.category_id')
+          .where('category.department_id', '=', department_id)
+          .column(...columns))
+        .fetchPage(paginationQuery);
+
+      const result = { count, rows: models };
+
+      return apiResponse(res, 'success', result);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 

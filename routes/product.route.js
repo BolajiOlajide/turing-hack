@@ -5,7 +5,12 @@ import ProductCtrl from '../controllers/product.controller';
 
 // middleware
 import {
-  paginationCheck, normalizeAllWords, checkQueryString, checkForValidProductId, checkForValidCategoryId
+  paginationCheck,
+  normalizeAllWords,
+  checkQueryString,
+  checkForValidProductId,
+  checkForValidCategoryId,
+  checkForValidDepartmentId
 } from '../middleware';
 
 const router = Router();
@@ -17,13 +22,29 @@ router.route('/')
   );
 
 router.route('/search')
-  .get(checkQueryString, normalizeAllWords, ProductCtrl.searchProduct);
+  .get(
+    paginationCheck([]),
+    checkQueryString,
+    normalizeAllWords,
+    ProductCtrl.searchProduct
+  );
 
 router.route('/:product_id')
   .get(checkForValidProductId, ProductCtrl.fetchProductById);
 
 router.route('/inCategory/:category_id')
-  .get(checkForValidCategoryId, ProductCtrl.fetchProductsByCategoryId);
+  .get(
+    paginationCheck([]),
+    checkForValidCategoryId,
+    ProductCtrl.fetchProductsByCategoryId
+  );
+
+router.route('/inDepartment/:department_id')
+  .get(
+    paginationCheck([]),
+    checkForValidDepartmentId,
+    ProductCtrl.fetchProductsByDepartmentId
+  );
 
 
 export default router;
