@@ -49,5 +49,8 @@ router.route('/inDepartment/:department_id')
 router.route('/:product_id/details')
   .get(checkForValidProductId, ProductCtrl.fetchProductDetails);
 
+router.route('/:product_id/locations')
+  .get(checkForValidProductId, ProductCtrl.getProductLocation);
+
 
 export default router;

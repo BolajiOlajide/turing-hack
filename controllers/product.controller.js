@@ -165,6 +165,31 @@ const ProductCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async getProductLocation(req, res) {
+    try {
+      const { product_id } = req.params;
+
+      const columns = [
+        'category.name as category_name',
+        'category.category_id',
+        'department.department_id',
+        'department.name as department_name'
+      ];
+
+      const result = await ProductCategory
+        .query(qb => qb
+          .innerJoin('category', 'category.category_id', 'product_category.category_id')
+          .innerJoin('department', 'department.department_id', 'category.department_id')
+          .where('product_category.product_id', '=', product_id)
+          .column(...columns))
+        .fetchAll();
+
+      return apiResponse(res, 'success', result);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 
