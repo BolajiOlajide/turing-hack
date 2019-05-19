@@ -8,7 +8,7 @@ import Product from './product.model';
 export default class ProductCategory extends db.Model {
   get tableName() { return 'product_category'; }
 
-  get idAttribute() { return ['category_id', 'product_id']; }
+  get idAttribute() { return 'product_category_id'; }
 
   category() { this.belongsTo(Category); }
 

@@ -5,7 +5,7 @@ import ProductCtrl from '../controllers/product.controller';
 
 // middleware
 import {
-  paginationCheck, normalizeAllWords, checkQueryString, checkForValidProductId
+  paginationCheck, normalizeAllWords, checkQueryString, checkForValidProductId, checkForValidCategoryId
 } from '../middleware';
 
 const router = Router();
@@ -21,6 +21,9 @@ router.route('/search')
 
 router.route('/:product_id')
   .get(checkForValidProductId, ProductCtrl.fetchProductById);
+
+router.route('/inCategory/:category_id')
+  .get(checkForValidCategoryId, ProductCtrl.fetchProductsByCategoryId);
 
 
 export default router;
