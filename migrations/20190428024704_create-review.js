@@ -5,7 +5,7 @@ const rawSql = `CREATE TABLE ${tblName} (
   product_id  INT NOT NULL,
   review TEXT NOT NULL,
   rating SMALLINT NOT NULL,
-  created_on DATETIME NOT NULL,
+  created_on DATETIME NOT NULL default NOW(),
   PRIMARY KEY (review_id),
   KEY idx_review_customer_id (customer_id),
   KEY idx_review_product_id (product_id)

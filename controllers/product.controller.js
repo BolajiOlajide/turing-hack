@@ -3,6 +3,7 @@ import db from '../db';
 // models
 import Product from '../models/product.model';
 import ProductCategory from '../models/productCategory.model';
+import Review from '../models/review.model';
 
 // utils
 import apiResponse from '../utils/apiResponse';
@@ -185,6 +186,26 @@ const ProductCtrl = {
           .where('product_category.product_id', '=', product_id)
           .column(...columns))
         .fetchAll();
+
+      return apiResponse(res, 'success', result);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async fetchProductReviews(req, res) {
+    try {
+      const { product_id } = req.params;
+
+      const resultProps = { withRelated: ['product'] };
+      const data = await Review.where({ product_id }).fetchAll(resultProps);
+
+      const result = data.models.map((item) => ({
+        name: item.relations.product.attributes.name,
+        review: item.attributes.review,
+        created_on: item.attributes.created_on,
+        rating: item.attributes.rating
+      }));
 
       return apiResponse(res, 'success', result);
     } catch (error) {

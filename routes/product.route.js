@@ -52,5 +52,8 @@ router.route('/:product_id/details')
 router.route('/:product_id/locations')
   .get(checkForValidProductId, ProductCtrl.getProductLocation);
 
+router.route('/:product_id/reviews')
+  .get(checkForValidProductId, ProductCtrl.fetchProductReviews);
+
 
 export default router;
