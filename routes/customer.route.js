@@ -34,4 +34,7 @@ router.route('/login')
     CustomerCtrl.signInCustomer
   );
 
+router.route('/facebook')
+  .post(checkUserPayload(['access_token']), CustomerCtrl.facebookLogin);
+
 export default router;

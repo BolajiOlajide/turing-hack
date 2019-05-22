@@ -17,6 +17,7 @@
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.19.0",
     "bookshelf": "^0.14.2",
     "bookshelf-bcrypt": "^3.0.2",

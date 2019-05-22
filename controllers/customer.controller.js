@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import config from 'lazy-config';
+import axios from 'axios';
 
 // models
 import Customer from '../models/customer.model';
@@ -33,15 +34,12 @@ const CustomerCtrl = {
         return apiResponse(res, 'error', msg, 404, USR_04, 'email');
       }
 
-      const newUser = await new Customer(userInfo).save();
-
-      // eslint-disable-next-line no-unused-vars
-      const { password: userPassword, ...nonSensitiveInfo } = newUser;
+      const customer = await new Customer(userInfo).save();
 
       return jwt.sign(
-        nonSensitiveInfo, secret, jwtConfig,
+        customer, secret, jwtConfig,
         (err, token) => apiResponse(res, 'success', {
-          customer: nonSensitiveInfo,
+          customer,
           accessToken: `Bearer ${token}`,
           expiresIn
         }));
@@ -106,6 +104,65 @@ const CustomerCtrl = {
       const updatedCustomer = await foundUser.save(req.body);
 
       return apiResponse(res, 'success', updatedCustomer);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async findOrCreate(userInfo) {
+    const foundUser = await Customer
+      .where('email', userInfo.email)
+      .fetch();
+
+    if (foundUser) {
+      return foundUser;
+    }
+
+    const newUser = await new Customer(userInfo).save();
+    return newUser;
+  },
+
+  async facebookLogin(req, res) {
+    try {
+      const { accessToken } = req.body;
+
+      const { appId, appSecret } = config.facebook;
+
+      const baseGraphURL = 'https://graph.facebook.com';
+      const debugTokenUrl = `${baseGraphURL}/debug_token?input_token=${accessToken}`;
+      const appToken = `access_token=${appId}|${appSecret}`;
+      const validateTokenUrl = `${debugTokenUrl}&format=json&${appToken}`;
+      const infoFormat = 'fields=email,id,first_name,last_name,picture';
+      const facebookToken = `access_token=${accessToken}`;
+      const userInfoFormatQuery = `format=json&${facebookToken}&${infoFormat}`;
+      const getInfoUrl = `${baseGraphURL}/me?${userInfoFormatQuery}`;
+
+      const validateTokenResponse = await axios.get(validateTokenUrl);
+
+      const tokenDetails = validateTokenResponse.data.data;
+
+      if (!tokenDetails.is_valid) {
+        return apiResponse(res, 'error', 'Invalid Facebook Token', 400);
+      }
+
+      const userDetails = await axios.get(getInfoUrl);
+
+      const { email, first_name, last_name } = userDetails.data;
+
+      const formattedUserInfo = {
+        email,
+        name: `${first_name} ${last_name}`
+      };
+
+      const customer = await this.findOrCreate(formattedUserInfo);
+
+      return jwt.sign(
+        customer, secret, jwtConfig,
+        (err, token) => apiResponse(res, 'success', {
+          customer,
+          accessToken: `Bearer ${token}`,
+          expiresIn
+        }));
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }

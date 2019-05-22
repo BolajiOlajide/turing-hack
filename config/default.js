@@ -26,5 +26,10 @@ module.exports = {
     name: lazyGetEnvVar('DB_NAME'),
     password: lazyGetEnvVar('DB_PASSWORD'),
     user: lazyGetEnvVar('DB_USER'),
+  },
+
+  facebook: {
+    appId: lazyGetEnvVar('FACEBOOK_APP_ID'),
+    appSecret: lazyGetEnvVar('FACEBOOK_APP_SECRET'),
   }
 };
