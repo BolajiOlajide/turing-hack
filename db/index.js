@@ -9,5 +9,6 @@ const bookshelfInstance = bookshelf(knex(knexConfig));
 bookshelfInstance.plugin(bookshelfBcrypt);
 bookshelfInstance.plugin('pagination');
 bookshelfInstance.plugin('registry');
+bookshelfInstance.plugin('visibility');
 
 export default bookshelfInstance;

@@ -54,25 +54,25 @@ const CustomerCtrl = {
     try {
       const { email, password } = req.body;
 
-      const foundUser = await Customer
+      const customer = await Customer
         .where('email', email)
         .fetch();
 
-      if (!foundUser) {
+      if (!customer) {
         const msg = 'The email doesn\'t exist.';
         return apiResponse(res, 'error', msg, 404, USR_05, 'email');
       }
 
-      const isPasswordValid = await foundUser.compare(password);
+      const isPasswordValid = await customer.compare(password);
 
       if (isPasswordValid) {
         // eslint-disable-next-line no-unused-vars
-        const { password: userPassword, ...nonSensitiveInfo } = foundUser.attributes;
+        // const { password: userPassword, ...nonSensitiveInfo } = foundUser.attributes;
 
         return jwt.sign(
-          nonSensitiveInfo, secret, jwtConfig,
+          customer, secret, jwtConfig,
           (err, token) => apiResponse(res, 'success', {
-            customer: nonSensitiveInfo,
+            customer,
             accessToken: `Bearer ${token}`,
             expiresIn
           }));
@@ -86,7 +86,29 @@ const CustomerCtrl = {
   },
 
   fetchCustomer(req, res) {
-    return apiResponse(res, 'success', req.auth);
+    // eslint-disable-next-line no-unused-vars
+    const { aud, iat, exp, ...userInfo } = req.auth;
+
+    return apiResponse(res, 'success', userInfo);
+  },
+
+  async updateCustomer(req, res) {
+    try {
+      const foundUser = await Customer
+        .where('email', req.auth.email)
+        .fetch();
+
+      if (!foundUser) {
+        const msg = 'The email doesn\'t exist.';
+        return apiResponse(res, 'error', msg, 404, USR_05, 'email');
+      }
+
+      const updatedCustomer = await foundUser.save(req.body);
+
+      return apiResponse(res, 'success', updatedCustomer);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 

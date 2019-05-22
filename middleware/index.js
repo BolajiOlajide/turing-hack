@@ -14,7 +14,8 @@ import {
   USR_02,
   USR_03,
   USR_08,
-  USR_09
+  USR_09,
+  USR_10
 } from '../utils/errorCodes';
 
 
@@ -161,6 +162,24 @@ export const checkUserPayload = allowedFields => (req, res, next) => {
   if (difference.length > 0) {
     const error = new Error(`The field ${difference[0]} is required`);
     error.code = USR_02;
+    error.statusCode = 400;
+    error.field = difference[0];
+    return next(error);
+  }
+
+  return next();
+};
+
+export const checkOptionalUserPayload = allowedFields => (req, res, next) => {
+  // eslint-disable-next-line no-unused-vars
+  const { name, email, ...filteredItems } = req.body;
+  const filteredKeys = Object.keys(filteredItems);
+
+  const difference = R.difference(filteredKeys, allowedFields);
+
+  if (difference.length > 0) {
+    const error = new Error(`The field ${difference[0]} isn't required`);
+    error.code = USR_10;
     error.statusCode = 400;
     error.field = difference[0];
     return next(error);

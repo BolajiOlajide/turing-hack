@@ -16,6 +16,7 @@ export const USR_06 = 'USR_06';
 export const USR_07 = 'USR_07';
 export const USR_08 = 'USR_08';
 export const USR_09 = 'USR_09';
+export const USR_10 = 'USR_10';
 
 // category errors
 export const CAT_01 = 'CAT_01';

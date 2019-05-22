@@ -4,7 +4,11 @@ import { Router } from 'express';
 import CustomerCtrl from '../controllers/customer.controller';
 
 // middlewares
-import { checkUserPayload, validateEmail } from '../middleware';
+import {
+  checkUserPayload,
+  validateEmail,
+  checkOptionalUserPayload
+} from '../middleware';
 
 
 const router = Router();
@@ -15,7 +19,13 @@ router.route('/')
     validateEmail,
     CustomerCtrl.createCustomer
   )
-  .get(CustomerCtrl.fetchCustomer);
+  .get(CustomerCtrl.fetchCustomer)
+  .put(
+    checkUserPayload(['name', 'email']),
+    validateEmail,
+    checkOptionalUserPayload(['password', 'day_phone', 'eve_phone', 'mob_phone']),
+    CustomerCtrl.updateCustomer
+  );
 
 router.route('/login')
   .post(
