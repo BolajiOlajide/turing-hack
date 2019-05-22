@@ -1,6 +1,7 @@
 import express from 'express';
 import config from 'lazy-config';
 import bodyParser from 'body-parser';
+import multer from 'multer';
 // import expressJwt from 'express-jwt';
 
 import logger from './logger';
@@ -18,9 +19,12 @@ import { authErrors } from './handlers/error.handler';
 // import { getToken } from './utils/auth';
 
 const app = express();
+const multerInstance = multer();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// handle form data
+app.use(multerInstance.none());
 
 const { app: { port: PORT } } = config;
 

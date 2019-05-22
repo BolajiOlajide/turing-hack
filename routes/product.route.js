@@ -10,7 +10,8 @@ import {
   checkQueryString,
   checkForValidProductId,
   checkForValidCategoryId,
-  checkForValidDepartmentId
+  checkForValidDepartmentId,
+  checkValidRating
 } from '../middleware';
 
 const router = Router();
@@ -53,7 +54,8 @@ router.route('/:product_id/locations')
   .get(checkForValidProductId, ProductCtrl.getProductLocation);
 
 router.route('/:product_id/reviews')
-  .get(checkForValidProductId, ProductCtrl.fetchProductReviews);
+  .get(checkForValidProductId, ProductCtrl.fetchProductReviews)
+  .post(checkForValidProductId, checkValidRating, ProductCtrl.createProductReview);
 
 
 export default router;

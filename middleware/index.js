@@ -5,7 +5,8 @@ import {
   PAG_02,
   PAG_01,
   ATT_02,
-  PRD_02
+  PRD_02,
+  PRD_04
 } from '../utils/errorCodes';
 
 
@@ -49,8 +50,8 @@ export const paginationCheck = (allowedFields = []) => (req, res, next) => {
 export const checkForValidDepartmentId = (req, res, next) => {
   const { department_id } = req.params;
 
-  const isNumber = !(isNaN(department_id));
-  if (!isNumber) {
+  const isNotANumber = isNaN(department_id);
+  if (isNotANumber) {
     const error = new Error('departmentId should be a number');
     error.code = DEP_01;
     error.statusCode = 400;
@@ -63,8 +64,8 @@ export const checkForValidDepartmentId = (req, res, next) => {
 export const checkForValidCategoryId = (req, res, next) => {
   const { category_id } = req.params;
 
-  const isNumber = !(isNaN(category_id));
-  if (!isNumber) {
+  const isNotANumber = isNaN(category_id);
+  if (isNotANumber) {
     const error = new Error('category_id should be a number');
     error.code = CAT_O2;
     error.statusCode = 400;
@@ -77,8 +78,8 @@ export const checkForValidCategoryId = (req, res, next) => {
 export const checkForValidProductId = (req, res, next) => {
   const { product_id } = req.params;
 
-  const isNumber = !(isNaN(product_id));
-  if (!isNumber) {
+  const isNotANumber = isNaN(product_id);
+  if (isNotANumber) {
     const error = new Error('product_id should be a number');
     error.code = PRD_01;
     error.statusCode = 400;
@@ -91,8 +92,8 @@ export const checkForValidProductId = (req, res, next) => {
 export const checkForValidAttributeId = (req, res, next) => {
   const { attribute_id } = req.params;
 
-  const isNumber = !(isNaN(attribute_id));
-  if (!isNumber) {
+  const isNotANumber = isNaN(attribute_id);
+  if (isNotANumber) {
     const error = new Error('attribute should be a number');
     error.code = ATT_02;
     error.statusCode = 400;
@@ -120,11 +121,25 @@ export const normalizeAllWords = (req, res, next) => {
 export const checkQueryString = (req, res, next) => {
   const { query_string } = req.query;
 
-  if (!query_string) {
+  if (query_string === undefined) {
     const error = new Error('query_string must be present');
     error.code = PRD_02;
     error.statusCode = 400;
     error.field = 'query_string';
+    return next(error);
+  }
+  return next();
+};
+
+export const checkValidRating = (req, res, next) => {
+  const { rating } = req.body;
+
+  const isNotANumber = isNaN(rating);
+  if (isNotANumber) {
+    const error = new Error('rating must be an integer');
+    error.code = PRD_04;
+    error.statusCode = 400;
+    error.field = 'rating';
     return next(error);
   }
   return next();

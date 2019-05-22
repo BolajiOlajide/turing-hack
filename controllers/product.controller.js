@@ -211,6 +211,25 @@ const ProductCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async createProductReview(req, res) {
+    try {
+      const { product_id } = req.params;
+      const { review, rating } = req.body;
+
+      const reviewInfo = {
+        review,
+        rating: Number(rating),
+        customer_id: 1,
+        product_id
+      };
+
+      const productReview = await new Review(reviewInfo).save();
+      return apiResponse(res, 'success', productReview);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 
