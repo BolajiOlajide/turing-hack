@@ -16,8 +16,8 @@ module.exports = {
   },
 
   authentication: {
-    secret: lazyGetEnvVar('JWT_SECRET', { devDefault: 'loochloosa' }),
-    audience: lazyGetEnvVar('JWT_AUDIENCE', { devDefault: 'instamarket' }),
+    secret: lazyGetEnvVar('JWT_SECRET', { devDefault: 'turing' }),
+    audience: lazyGetEnvVar('JWT_AUDIENCE', { devDefault: 'turing' }),
     algo: lazyGetEnvVar('JWT_ALGO', { devDefault: 'HS512' }),
   },
 

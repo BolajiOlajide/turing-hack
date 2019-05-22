@@ -11,6 +11,7 @@ import DeptRoutes from './routes/department.route';
 import CategoryRoutes from './routes/category.route';
 import AttributeRoutes from './routes/attribute.route';
 import ProductRoutes from './routes/product.route';
+import CustomerRoutes from './routes/customer.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
@@ -39,6 +40,7 @@ app.use('/departments', DeptRoutes);
 app.use('/categories', CategoryRoutes);
 app.use('/attributes', AttributeRoutes);
 app.use('/products', ProductRoutes);
+app.use('/customers', CustomerRoutes);
 app.use('*', (req, res) => apiResponse(res, 'failure', 'Endpoint not found', 404));
 
 app.use(authErrors);
