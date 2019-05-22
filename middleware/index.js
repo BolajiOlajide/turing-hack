@@ -1,3 +1,7 @@
+import R from 'ramda';
+import isEmail from 'validator/lib/isEmail';
+import isNumeric from 'validator/lib/isNumeric';
+
 import {
   CAT_O2,
   PRD_01,
@@ -6,7 +10,11 @@ import {
   PAG_01,
   ATT_02,
   PRD_02,
-  PRD_04
+  PRD_04,
+  USR_02,
+  USR_03,
+  USR_08,
+  USR_09
 } from '../utils/errorCodes';
 
 
@@ -142,5 +150,69 @@ export const checkValidRating = (req, res, next) => {
     error.field = 'rating';
     return next(error);
   }
+  return next();
+};
+
+export const checkUserPayload = allowedFields => (req, res, next) => {
+  const keys = Object.keys(req.body);
+
+  const difference = R.difference(allowedFields, keys);
+
+  if (difference.length > 0) {
+    const error = new Error(`The field ${difference[0]} is required`);
+    error.code = USR_02;
+    error.statusCode = 400;
+    error.field = difference[0];
+    return next(error);
+  }
+
+  return next();
+};
+
+export const validateEmail = (req, res, next) => {
+  const { email } = req.body;
+
+  const isValidEmail = isEmail(email);
+
+  if (!isValidEmail) {
+    const error = new Error('The email is invalid');
+    error.code = USR_03;
+    error.statusCode = 400;
+    error.field = email;
+    return next(error);
+  }
+
+  return next();
+};
+
+export const validateCreditCard = (req, res, next) => {
+  const { credit_card } = req.body;
+
+  const isValidCreditCard = isNumeric(credit_card);
+
+  if (!isValidCreditCard) {
+    const error = new Error('this is an invalid Credit Card.');
+    error.code = USR_08;
+    error.statusCode = 400;
+    error.field = credit_card;
+    return next(error);
+  }
+
+  return next();
+};
+
+export const validateShippingRegion = (req, res, next) => {
+  const { shipping_region_id } = req.body;
+
+  const isValidRegionID = isNumeric(shipping_region_id);
+
+  if (!isValidRegionID) {
+    const error = new Error('The Shipping Region ID is not number');
+    error.code = USR_09;
+    error.statusCode = 400;
+    error.field = shipping_region_id;
+    return next(error);
+  }
+
   return next();
 };

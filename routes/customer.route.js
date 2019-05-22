@@ -3,10 +3,24 @@ import { Router } from 'express';
 // controllers
 import CustomerCtrl from '../controllers/customer.controller';
 
+// middlewares
+import { checkUserPayload, validateEmail } from '../middleware';
+
 
 const router = Router();
 
 router.route('/')
-  .post(CustomerCtrl.createCustomer);
+  .post(
+    checkUserPayload(['name', 'email', 'password']),
+    validateEmail,
+    CustomerCtrl.createCustomer
+  );
+
+router.route('/login')
+  .post(
+    checkUserPayload(['email', 'password']),
+    validateEmail,
+    CustomerCtrl.signInCustomer
+  );
 
 export default router;

@@ -2,7 +2,7 @@ import express from 'express';
 import config from 'lazy-config';
 import bodyParser from 'body-parser';
 import multer from 'multer';
-// import expressJwt from 'express-jwt';
+import expressJwt from 'express-jwt';
 
 import logger from './logger';
 
@@ -15,9 +15,9 @@ import CustomerRoutes from './routes/customer.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
-// import { unprotectedRoutes } from './utils/routes';
+import { unprotectedRoutes } from './utils/routes';
 import { authErrors } from './handlers/error.handler';
-// import { getToken } from './utils/auth';
+import { getToken } from './utils/auth';
 
 const app = express();
 const multerInstance = multer();
@@ -29,11 +29,11 @@ app.use(multerInstance.none());
 
 const { app: { port: PORT } } = config;
 
-// app.use(expressJwt({
-//   secret: config.authentication.secret,
-//   requestProperty: 'auth',
-//   getToken
-// }).unless({ path: unprotectedRoutes }));
+app.use(expressJwt({
+  secret: config.authentication.secret,
+  requestProperty: 'auth',
+  getToken
+}).unless({ path: unprotectedRoutes }));
 
 app.get('/', (req, res) => apiResponse(res, 'success', { message: 'Welcome to turing!' }));
 app.use('/departments', DeptRoutes);

@@ -217,11 +217,12 @@ const ProductCtrl = {
     try {
       const { product_id } = req.params;
       const { review, rating } = req.body;
+      const { customer_id } = req.auth;
 
       const reviewInfo = {
         review,
         rating: Number(rating),
-        customer_id: 1,
+        customer_id,
         product_id
       };
 

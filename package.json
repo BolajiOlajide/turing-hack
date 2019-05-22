@@ -13,7 +13,7 @@
     "seed": "knex seed:run",
     "lint": "eslint .",
     "fix": "eslint . --fix",
-    "prepare": "yarn migrate && yarn seed"
+    "db:prepare": "yarn migrate && yarn seed"
   },
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
@@ -31,6 +31,7 @@
     "multer": "^1.4.1",
     "mysql2": "^1.6.5",
     "ramda": "^0.26.1",
+    "validator": "^10.11.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
