@@ -83,6 +83,10 @@ const CustomerCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  fetchCustomer(req, res) {
+    return apiResponse(res, 'success', req.auth);
   }
 };
 

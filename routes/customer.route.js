@@ -14,7 +14,8 @@ router.route('/')
     checkUserPayload(['name', 'email', 'password']),
     validateEmail,
     CustomerCtrl.createCustomer
-  );
+  )
+  .get(CustomerCtrl.fetchCustomer);
 
 router.route('/login')
   .post(
