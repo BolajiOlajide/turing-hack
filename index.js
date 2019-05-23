@@ -14,6 +14,7 @@ import ProductRoutes from './routes/product.route';
 import CustomerRoutes from './routes/customer.route';
 import OrderRoutes from './routes/order.route';
 import TaxRoutes from './routes/tax.route';
+import ShippingRegionRoutes from './routes/shippingRegion.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
@@ -45,6 +46,7 @@ app.use('/products', ProductRoutes);
 app.use('/customers', CustomerRoutes);
 app.use('/orders', OrderRoutes);
 app.use('/tax', TaxRoutes);
+app.use('/shipping/regions', ShippingRegionRoutes);
 app.use('*', (req, res) => apiResponse(res, 'failure', 'Endpoint not found', 404));
 
 app.use(authErrors);

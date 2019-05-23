@@ -26,4 +26,4 @@ exports.down = knex => {
     .then(exists => exists && (knex.schema.alterTable(tblName, tbl => tbl
       .integer('product_id').notNullable().alter()
     )));
-}
+};
