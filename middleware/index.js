@@ -16,7 +16,8 @@ import {
   USR_03,
   USR_08,
   USR_09,
-  USR_10
+  USR_10,
+  TAX_02
 } from '../utils/errorCodes';
 
 
@@ -94,6 +95,20 @@ export const checkForValidProductId = (req, res, next) => {
     error.code = PRD_01;
     error.statusCode = 400;
     error.field = 'product_id';
+    return next(error);
+  }
+  return next();
+};
+
+export const checkForValidTaxId = (req, res, next) => {
+  const { tax_id } = req.params;
+
+  const isNotANumber = isNaN(tax_id);
+  if (isNotANumber) {
+    const error = new Error('tax_id should be a number');
+    error.code = TAX_02;
+    error.statusCode = 400;
+    error.field = 'tax_id';
     return next(error);
   }
   return next();

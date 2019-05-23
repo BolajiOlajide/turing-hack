@@ -35,3 +35,7 @@ export const PRD_04 = 'PRD_04';
 // attribute errors
 export const ATT_01 = 'ATT_01';
 export const ATT_02 = 'ATT_02';
+
+// tax errors
+export const TAX_01 = 'TAX_01';
+export const TAX_02 = 'TAX_02';

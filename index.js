@@ -12,6 +12,8 @@ import CategoryRoutes from './routes/category.route';
 import AttributeRoutes from './routes/attribute.route';
 import ProductRoutes from './routes/product.route';
 import CustomerRoutes from './routes/customer.route';
+import OrderRoutes from './routes/order.route';
+import TaxRoutes from './routes/tax.route';
 
 // utils
 import apiResponse from './utils/apiResponse';
@@ -41,6 +43,8 @@ app.use('/categories', CategoryRoutes);
 app.use('/attributes', AttributeRoutes);
 app.use('/products', ProductRoutes);
 app.use('/customers', CustomerRoutes);
+app.use('/orders', OrderRoutes);
+app.use('/tax', TaxRoutes);
 app.use('*', (req, res) => apiResponse(res, 'failure', 'Endpoint not found', 404));
 
 app.use(authErrors);
