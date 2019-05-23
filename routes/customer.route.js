@@ -7,7 +7,8 @@ import CustomerCtrl from '../controllers/customer.controller';
 import {
   checkUserPayload,
   validateEmail,
-  checkOptionalUserPayload
+  checkOptionalUserPayload,
+  validateCreditCard
 } from '../middleware';
 
 
@@ -36,5 +37,8 @@ router.route('/login')
 
 router.route('/facebook')
   .post(checkUserPayload(['access_token']), CustomerCtrl.facebookLogin);
+
+router.route('/creditCard')
+  .post(checkUserPayload(['credit_card']), validateCreditCard, CustomerCtrl.updateCreditCard);
 
 export default router;

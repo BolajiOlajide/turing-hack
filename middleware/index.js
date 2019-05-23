@@ -1,6 +1,7 @@
 import R from 'ramda';
 import isEmail from 'validator/lib/isEmail';
 import isNumeric from 'validator/lib/isNumeric';
+import isCreditCard from 'validator/lib/isCreditCard';
 
 import {
   CAT_O2,
@@ -207,7 +208,7 @@ export const validateEmail = (req, res, next) => {
 export const validateCreditCard = (req, res, next) => {
   const { credit_card } = req.body;
 
-  const isValidCreditCard = isNumeric(credit_card);
+  const isValidCreditCard = isCreditCard(credit_card);
 
   if (!isValidCreditCard) {
     const error = new Error('this is an invalid Credit Card.');

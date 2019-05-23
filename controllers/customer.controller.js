@@ -92,16 +92,16 @@ const CustomerCtrl = {
 
   async updateCustomer(req, res) {
     try {
-      const foundUser = await Customer
+      const foundCustomer = await Customer
         .where('email', req.auth.email)
         .fetch();
 
-      if (!foundUser) {
+      if (!foundCustomer) {
         const msg = 'The email doesn\'t exist.';
         return apiResponse(res, 'error', msg, 404, USR_05, 'email');
       }
 
-      const updatedCustomer = await foundUser.save(req.body);
+      const updatedCustomer = await foundCustomer.save(req.body);
 
       return apiResponse(res, 'success', updatedCustomer);
     } catch (error) {
@@ -163,6 +163,28 @@ const CustomerCtrl = {
           accessToken: `Bearer ${token}`,
           expiresIn
         }));
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async updateCreditCard(req, res) {
+    try {
+      const { credit_card } = req.body;
+      const { email } = req.auth;
+
+      const foundCustomer = await Customer
+        .where('email', email)
+        .fetch();
+
+      if (!foundCustomer) {
+        const msg = 'The email doesn\'t exist.';
+        return apiResponse(res, 'error', msg, 404, USR_05, 'email');
+      }
+
+      const updatedCustomer = await foundCustomer.save({ credit_card });
+
+      return apiResponse(res, 'success', updatedCustomer);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
