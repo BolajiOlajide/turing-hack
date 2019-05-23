@@ -39,6 +39,21 @@ router.route('/facebook')
   .post(checkUserPayload(['access_token']), CustomerCtrl.facebookLogin);
 
 router.route('/creditCard')
-  .post(checkUserPayload(['credit_card']), validateCreditCard, CustomerCtrl.updateCreditCard);
+  .put(checkUserPayload(['credit_card']), validateCreditCard, CustomerCtrl.updateCreditCard);
+
+const addressFields = [
+  'address_1',
+  'city',
+  'region',
+  'postal_code',
+  'country',
+  'shipping_region_id'
+];
+
+router.route('/address')
+  .put(
+    checkUserPayload(addressFields),
+    CustomerCtrl.updateCustomerAddress
+  );
 
 export default router;

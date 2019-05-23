@@ -37,7 +37,7 @@ const CustomerCtrl = {
       const customer = await new Customer(userInfo).save();
 
       return jwt.sign(
-        customer, secret, jwtConfig,
+        customer.attributes, secret, jwtConfig,
         (err, token) => apiResponse(res, 'success', {
           customer,
           accessToken: `Bearer ${token}`,
@@ -64,11 +64,8 @@ const CustomerCtrl = {
       const isPasswordValid = await customer.compare(password);
 
       if (isPasswordValid) {
-        // eslint-disable-next-line no-unused-vars
-        // const { password: userPassword, ...nonSensitiveInfo } = foundUser.attributes;
-
         return jwt.sign(
-          customer, secret, jwtConfig,
+          customer.attributes, secret, jwtConfig,
           (err, token) => apiResponse(res, 'success', {
             customer,
             accessToken: `Bearer ${token}`,
@@ -183,6 +180,49 @@ const CustomerCtrl = {
       }
 
       const updatedCustomer = await foundCustomer.save({ credit_card });
+
+      return apiResponse(res, 'success', updatedCustomer);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async updateCustomerAddress(req, res) {
+    try {
+      const { email } = req.auth;
+      const {
+        address_1,
+        city,
+        region,
+        postal_code,
+        country,
+        address_2,
+        shipping_region_id
+      } = req.body;
+
+      const foundCustomer = await Customer
+        .where('email', email)
+        .fetch();
+
+      if (!foundCustomer) {
+        const msg = 'The email doesn\'t exist.';
+        return apiResponse(res, 'error', msg, 404, USR_05, 'email');
+      }
+
+      const addressObj = {
+        address_1,
+        city,
+        region,
+        postal_code,
+        country,
+        shipping_region_id
+      };
+
+      if (address_2) {
+        addressObj['address_2'] = address_2;
+      }
+
+      const updatedCustomer = await foundCustomer.save(addressObj);
 
       return apiResponse(res, 'success', updatedCustomer);
     } catch (error) {
