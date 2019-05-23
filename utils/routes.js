@@ -1,6 +1,21 @@
 exports.unprotectedRoutes = [
   { url: '/', methods: ['GET'] },
+  { url: '/departments', methods: ['GET'] },
+  { url: /^\/departments\/.*/, methods: ['GET'] },
+  { url: '/categories', methods: ['GET'] },
+  { url: /^\/categories\/.*/, methods: ['GET'] },
+  { url: '/attributes', methods: ['GET'] },
+  { url: /^\/attributes\/.*/, methods: ['GET'] },
+  { url: '/products', methods: ['GET'] },
+  { url: /^\/products\/.*/, methods: ['GET'] },
   { url: '/customers/login', methods: ['POST'] },
   { url: '/customers', methods: ['POST'] },
-  { url: '/customers/facebook', methods: ['POST'] }
+  { url: '/customers/facebook', methods: ['POST'] },
+  { url: /^\/shoppingcart\/.*/, methods: ['GET', 'POST', 'DELETE', 'PUT'] },
+  { url: '/tax', methods: ['GET'] },
+  { url: /^\/tax\/.*/, methods: ['GET'] },
+  { url: '/shipping/regions', methods: ['GET'] },
+  { url: /^\/shipping\/regions\/.*/, methods: ['GET'] },
+  { url: '/stripe/charge', methods: ['POST'] },
+  { url: '/stripe/webhooks', methods: ['POST'] }
 ];
