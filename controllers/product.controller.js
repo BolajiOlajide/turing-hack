@@ -197,14 +197,20 @@ const ProductCtrl = {
     try {
       const { product_id } = req.params;
 
-      const resultProps = { withRelated: ['product'] };
+      const resultProps = {
+        // https://github.com/bookshelf/bookshelf/issues/75
+        withRelated: [{
+          product: qb => qb.column('product_id', 'name')
+        }]
+      };
       const data = await Review.where({ product_id }).fetchAll(resultProps);
+      const jsonData = data.toJSON();
 
-      const result = data.models.map((item) => ({
-        name: item.relations.product.attributes.name,
-        review: item.attributes.review,
-        created_on: item.attributes.created_on,
-        rating: item.attributes.rating
+      const result = jsonData.map((item) => ({
+        name: item.product.name,
+        review: item.review,
+        created_on: item.created_on,
+        rating: item.rating
       }));
 
       return apiResponse(res, 'success', result);
