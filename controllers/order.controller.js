@@ -45,6 +45,20 @@ const OrderCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async fetchOrderShortDetail(req, res) {
+    try {
+      const { order_id } = req.params;
+
+      const resultProps = {
+        columns: ['order_id', 'shipped_on', 'created_on', 'status', 'total_amount']
+      };
+      const orders = await Order.where({ order_id }).fetch(resultProps);
+      return apiResponse(res, 'success', orders);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 

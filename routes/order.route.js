@@ -12,6 +12,9 @@ router.route('/')
 router.route('/inCustomer')
   .get(OrderCtrl.fetchOrderDetailForCustomer);
 
+router.route('/shortDetail/:order_id')
+  .get(OrderCtrl.fetchOrderShortDetail);
+
 router.route('/:order_id')
   .get(OrderCtrl.fetchOrderDetail);
 
