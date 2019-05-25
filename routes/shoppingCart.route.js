@@ -18,6 +18,9 @@ router.route('/add')
     ShoppingCartCtrl.createShoppingCart
   );
 
+router.route('/update/:item_id')
+  .put(checkUserPayload(['quantity']), ShoppingCartCtrl.updateCartByItem);
+
 router.route('/:cart_id')
   .get(
     ShoppingCartCtrl.getProductInShoppingCart

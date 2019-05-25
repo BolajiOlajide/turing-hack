@@ -4,6 +4,7 @@ import ShopppingCart from '../models/shoppingCart.model';
 // utils
 import apiResponse from '../utils/apiResponse';
 import { generateCartId } from '../utils/cart';
+import { USR_02 } from '../utils/errorCodes';
 
 
 const ShoppingCartCtrl = {
@@ -51,6 +52,27 @@ const ShoppingCartCtrl = {
       }));
 
       return apiResponse(res, 'success', formattedResult);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async updateCartByItem(req, res) {
+    try {
+      const { item_id } = req.params;
+      const { quantity } = req.body;
+
+      const cartItem = await ShopppingCart.where('item_id', item_id).fetch();
+
+      if (!cartItem) {
+        const msg = 'The item_id doesn\'t exist.';
+        return apiResponse(res, 'error', msg, 404, USR_02, 'item_id');
+      }
+
+      const updatedCartItem = await cartItem.save({ quantity });
+      const cartItemJson = updatedCartItem.toJSON();
+
+      return apiResponse(res, 'success', cartItemJson);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
