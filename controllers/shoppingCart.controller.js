@@ -94,6 +94,29 @@ const ShoppingCartCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async calculateCartTotalAmount(req, res) {
+    try {
+      const { cart_id } = req.params;
+
+      const resultProps = { withRelated: ['product'] };
+      const cartItems = await ShopppingCart.where({ cart_id }).fetchAll(resultProps);
+
+      const cartItemsJson = cartItems.toJSON();
+
+      const totalAmountReducer = (accumulator, cartItem) => {
+        const productPrice = parseFloat(cartItem.product.price, 10);
+        const productQuantity = parseInt(cartItem.quantity, 10);
+        const totalCost = productPrice * productQuantity;
+        return accumulator + parseFloat(totalCost, 10);
+      };
+      const totalAmount = cartItemsJson.reduce(totalAmountReducer, 0).toFixed(2);
+
+      return apiResponse(res, 'success', { totalAmount });
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 

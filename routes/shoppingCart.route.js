@@ -24,6 +24,9 @@ router.route('/update/:item_id')
 router.route('/empty/:cart_id')
   .delete(ShoppingCartCtrl.emptyCart);
 
+router.route('/totalAmount/:cart_id')
+  .get(ShoppingCartCtrl.calculateCartTotalAmount);
+
 router.route('/:cart_id')
   .get(
     ShoppingCartCtrl.getProductInShoppingCart
