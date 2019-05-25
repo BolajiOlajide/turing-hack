@@ -13,9 +13,14 @@ router.route('/generateUniqueId')
   .get(ShoppingCartCtrl.generateCartId);
 
 router.route('/add')
-  .get(
+  .post(
     checkUserPayload(['cart_id', 'product_id', 'attributes']),
     ShoppingCartCtrl.createShoppingCart
+  );
+
+router.route('/:cart_id')
+  .get(
+    ShoppingCartCtrl.getProductInShoppingCart
   );
 
 export default router;

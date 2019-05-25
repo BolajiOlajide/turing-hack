@@ -7,5 +7,7 @@ import Product from './product.model';
 export default db.Model.extend({
   tableName: 'shopping_cart',
   idAttribute: 'item_id',
-  product: () => this.belongsTo(Product, 'product_id')
+  product() {
+    return this.belongsTo(Product, 'product_id');
+  }
 });

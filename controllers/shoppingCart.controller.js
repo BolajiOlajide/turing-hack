@@ -23,6 +23,37 @@ const ShoppingCartCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async getProductInShoppingCart(req, res) {
+    try {
+      const { cart_id } = req.params;
+
+      const resultProps = { withRelated: ['product'] };
+      const cartItems = await ShopppingCart.where({ cart_id }).fetchAll(resultProps);
+      const result = cartItems.toJSON();
+
+      const formattedResult = result.map(({
+        item_id,
+        product: { name, price, image },
+        attributes,
+        product_id,
+        quantity
+      }) => ({
+        item_id,
+        name,
+        price,
+        image,
+        attributes,
+        product_id,
+        quantity,
+        subtotal: Number(quantity) * Number(price)
+      }));
+
+      return apiResponse(res, 'success', formattedResult);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 
