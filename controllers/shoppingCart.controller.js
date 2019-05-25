@@ -1,3 +1,5 @@
+import db from '../db';
+
 // models
 import ShopppingCart from '../models/shoppingCart.model';
 
@@ -73,6 +75,22 @@ const ShoppingCartCtrl = {
       const cartItemJson = updatedCartItem.toJSON();
 
       return apiResponse(res, 'success', cartItemJson);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async emptyCart(req, res) {
+    try {
+      const { cart_id } = req.params;
+
+      const rawSql = `DELETE FROM shopping_cart
+      WHERE cart_id = ?
+      `;
+
+      await db.knex.raw(rawSql, cart_id);
+
+      return apiResponse(res, 'success', []);
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }

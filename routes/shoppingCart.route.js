@@ -21,6 +21,9 @@ router.route('/add')
 router.route('/update/:item_id')
   .put(checkUserPayload(['quantity']), ShoppingCartCtrl.updateCartByItem);
 
+router.route('/empty/:cart_id')
+  .delete(ShoppingCartCtrl.emptyCart);
+
 router.route('/:cart_id')
   .get(
     ShoppingCartCtrl.getProductInShoppingCart
