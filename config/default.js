@@ -31,5 +31,9 @@ module.exports = {
   facebook: {
     appId: lazyGetEnvVar('FACEBOOK_APP_ID'),
     appSecret: lazyGetEnvVar('FACEBOOK_APP_SECRET'),
+  },
+
+  stripe: {
+    token: lazyGetEnvVar('STRIPE_TOKEN')
   }
 };

@@ -4,7 +4,7 @@ const rawSql = `CREATE TABLE ${tblName} (
   total_amount DECIMAL(10,2) NOT NULL DEFAULT '0.00',
   created_on DATETIME NOT NULL,
   shipped_on DATETIME,
-  status INT NOT NULL  DEFAULT '0',
+  status BOOL NOT NULL  DEFAULT false,
   comments VARCHAR(255),
   customer_id INT,
   auth_code VARCHAR(50),
