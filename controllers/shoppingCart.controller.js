@@ -117,6 +117,41 @@ const ShoppingCartCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async saveProductForLater(req, res) {
+    try {
+      const { item_id } = req.params;
+
+      const cartItem = await ShopppingCart
+        .where('item_id', item_id)
+        .fetch();
+
+      if (!cartItem) {
+        const msg = 'The item_id doesn\'t exist.';
+        return apiResponse(res, 'error', msg, 404, USR_02, 'item_id');
+      }
+
+      await cartItem.save({ buy_now: 0 });
+
+      return apiResponse(res, 'success', '');
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
+  },
+
+  async getSavedForLaterItems(req, res) {
+    try {
+      const { cart_id } = req.params;
+
+      const cartItems = await ShopppingCart
+        .where({ cart_id, buy_now: 0 })
+        .fetchAll();
+
+      return apiResponse(res, 'success', cartItems);
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400);
+    }
   }
 };
 

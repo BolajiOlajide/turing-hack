@@ -27,6 +27,12 @@ router.route('/empty/:cart_id')
 router.route('/totalAmount/:cart_id')
   .get(ShoppingCartCtrl.calculateCartTotalAmount);
 
+router.route('/saveForLater/:item_id')
+  .get(ShoppingCartCtrl.saveProductForLater);
+
+router.route('/getSaved/:cart_id')
+  .get(ShoppingCartCtrl.getSavedForLaterItems);
+
 router.route('/:cart_id')
   .get(
     ShoppingCartCtrl.getProductInShoppingCart
