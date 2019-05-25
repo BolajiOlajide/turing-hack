@@ -33,6 +33,9 @@ router.route('/saveForLater/:item_id')
 router.route('/getSaved/:cart_id')
   .get(ShoppingCartCtrl.getSavedForLaterItems);
 
+router.route('/removeProduct/:item_id')
+  .delete(ShoppingCartCtrl.removeItemFromCart);
+
 router.route('/:cart_id')
   .get(
     ShoppingCartCtrl.getProductInShoppingCart

@@ -152,6 +152,20 @@ const ShoppingCartCtrl = {
     } catch (error) {
       return apiResponse(res, 'error', error.message, 400);
     }
+  },
+
+  async removeItemFromCart(req, res) {
+    try {
+      const { item_id } = req.params;
+
+      await ShopppingCart
+        .where({ item_id })
+        .destroy();
+
+      return apiResponse(res, 'success', '');
+    } catch (error) {
+      return apiResponse(res, 'error', error.message, 400, USR_02, 'item_id');
+    }
   }
 };
 
